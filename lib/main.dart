@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:convert'; // 추가
-import 'package:flutter/services.dart'; // 추가
+import 'dart:convert'; 
+import 'package:flutter/services.dart'; 
 import 'package:flutter/material.dart';
 
 void main() => runApp(const LawLearnerApp());
@@ -131,6 +131,10 @@ class _MainDashboardState extends State<MainDashboard> {
       setState(() {
         _allArticles = data.map((json) => Article.fromJson(json)).toList();
         _isLoading = false;
+        print("불러온 총 조문 수: ${_allArticles.length}"); // 이게 0이면 JSON 로딩 자체의 문제
+    if (_allArticles.isNotEmpty) {
+      print("첫 번째 조문의 조약명: ${_allArticles[0].treaty}"); // 이게 VCLT인지 확인
+    }
       });
     } catch (e) {
       debugPrint("데이터 로딩 실패: $e");
