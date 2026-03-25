@@ -930,7 +930,6 @@ Container(
     ));
   }
   
-  // 이 함수 전체를 아래 내용으로 새로 갈아 끼우세요.
   Widget _buildHierarchyLine({
     required String prefix,
     required String fullText,
