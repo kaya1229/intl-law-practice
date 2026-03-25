@@ -332,18 +332,27 @@ Widget build(BuildContext context) {
       ),
     );
   }
-  void _startQuiz(String mode, {String? quizType}) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => QuizScreen(
-          allArticles: _allArticles, 
-          mode: mode, 
-          quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
-        ),
+ void _startQuiz(String mode, {String? quizType}) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => QuizScreen(
+        allArticles: _allArticles, 
+        mode: mode, 
+        quizType: quizType,
       ),
-    ).then((_) => setState(() {}));
-  }
+    ),
+  ).then((value) { // 👈 value에 퀴즈 점수가 담겨서 돌아옵니다.
+    if (value != null && value is int) {
+      setState(() {
+        // 현재 최고 점수보다 돌아온 점수가 더 높으면 갱신
+        if (value > globalHighScore) {
+          globalHighScore = value;
+        }
+      });
+      print("퀴즈 종료! 획득 점수: $value / 최고 점수: $globalHighScore");
+    }
+  });
 }
 
 // --- [2. 즐겨찾기 리스트 화면] ---
