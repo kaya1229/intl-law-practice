@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'dart:convert'; // JSON 해석용
-import 'package:flutter/services.dart'; // 파일 로드용
 
 void main() => runApp(const LawLearnerApp());
 
 // --- [데이터 모델] ---
 
-// 1. 모델 클래스 수정 (JSON과 호환되도록 factory 추가)
 class SubPoint {
   final String letter;
   final String text;
   SubPoint({required this.letter, required this.text});
-
-  factory SubPoint.fromJson(Map<String, dynamic> json) =>
-      SubPoint(letter: json['letter'] ?? "", text: json['text'] ?? "");
 }
 
 class SubItem {
@@ -21,55 +15,24 @@ class SubItem {
   final String text;
   final List<SubPoint> subPoints;
   SubItem({required this.number, required this.text, this.subPoints = const []});
-
-  factory SubItem.fromJson(Map<String, dynamic> json) => SubItem(
-        number: json['letter'] ?? json['order'] ?? "",
-        text: json['text'] ?? "",
-        subPoints: json['subPoints'] != null
-            ? (json['subPoints'] as List).map((s) => SubPoint.fromJson(s)).toList()
-            : [],
-      );
 }
 
 class Paragraph {
   final String order;
   final String text;
   final List<SubItem> subItems;
-  final List<String> keywords;
-  // 부모 정보를 JSON에서 가져올 수 없으므로 기본값 처리하거나 선택사항으로 변경
+  List<String> keywords; 
+  String userNote;
+  bool isFavorite;
+  int wrongCount;
   final String parentArticleId;
   final String parentTreaty;
-  bool isFavorite;
-
-  int wrongCount; // 오답 횟수 추적용
-  String userNote; // 필기 내용 저장용
 
   Paragraph({
-    required this.order,
-    required this.text,
-    required this.subItems,
-    required this.keywords,
-    this.parentArticleId = "", // 기본값 추가
-    this.parentTreaty = "VCLT", // 기본값 추가
-    this.isFavorite = false,
-    this.wrongCount = 0, // 기본값 0
-    this.userNote = "",  // 기본값 공백
-  });
-
-  factory Paragraph.fromJson(Map<String, dynamic> json, String articleId, String treaty) => 
-    Paragraph(
-        order: json['order'] ?? "",
-        text: json['text'] ?? "",
-        subItems: json['subItems'] != null
-            ? (json['subItems'] as List).map((s) => SubItem.fromJson(s)).toList()
-            : [],
-        keywords: List<String>.from(json['keywords'] ?? []),
-        parentArticleId: articleId,
-        parentTreaty: treaty,
-        isFavorite: json['isFavorite'] ?? false,
-        wrongCount: json['wrongCount'] ?? 0, // JSON에 없어도 0으로 초기화
-        userNote: json['userNote'] ?? "",    // JSON에 없어도 공백으로 초기화
-      );
+    required this.order, required this.text, required this.subItems,
+    required this.parentArticleId, required this.parentTreaty,
+    List<String>? keywords, this.userNote = "", this.isFavorite = false, this.wrongCount = 0,
+  }) : keywords = keywords ?? [];
 }
 
 class Article {
@@ -77,26 +40,8 @@ class Article {
   final String title;
   final String treaty;
   final List<Paragraph> paragraphs;
-
   Article({required this.id, required this.title, required this.treaty, required this.paragraphs});
-
-  factory Article.fromJson(Map<String, dynamic> json) {
-    String aId = json['id'] ?? "";
-    String aTreaty = json['treaty'] ?? "";
-    return Article(
-        id: aId,
-        title: json['title'] ?? "",
-        treaty: aTreaty,
-        paragraphs: (json['paragraphs'] as List)
-            .map((p) => Paragraph.fromJson(p, aId, aTreaty))
-            .toList(),
-      );
-  }
 }
-
-// 2. MainDashboard의 데이터 로딩 로직
-// initState 안에서 _allArticles = [ Article(...) ] 부분을 삭제하고 
-// 제가 이전에 드린 _loadJsonData() 함수를 넣으시면 됩니다.
 
 int globalHighScore = 0;
 
@@ -119,35 +64,38 @@ class LawLearnerApp extends StatelessWidget {
 
 // --- [1. 메인 대시보드] ---
 
+class MainDashboard extends StatefulWidget {
+  const MainDashboard({super.key});
+  @override
+  State<MainDashboard> createState() => _MainDashboardState();
+}
+
 class _MainDashboardState extends State<MainDashboard> {
   String _archiveSearchQuery = "";
-  List<Article> _allArticles = []; // late 제거, 초기값 설정
-  bool _isLoading = true;
+  late List<Article> _allArticles;
 
   @override
   void initState() {
     super.initState();
-    _loadJsonData();
+    _allArticles = [
+      Article(
+        id: "제2조", title: "용어의 정의", treaty: "VCLT",
+        paragraphs: [
+          Paragraph(
+            order: "1", text: "이 협약의 목적상 다음의 용어는 아래의 의미를 가진다.",
+            parentArticleId: "제2조", parentTreaty: "VCLT",
+            subItems: [
+              SubItem(number: "1", text: "'조약'이라 함은 국가간에 서면 형식으로 체결된 합의를 말한다.", subPoints: [
+                SubPoint(letter: "가", text: "단일의 문서에 포함되어 있는 것")
+              ])
+            ],
+            keywords: ["서면", "단일"],
+          )
+        ],
+      ),
+    ];
   }
 
-  // 1. 데이터 로딩 함수
-  Future<void> _loadJsonData() async {
-    try {
-      final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
-      final Map<String, dynamic> data = json.decode(response);
-      final List<dynamic> articlesJson = data['articles'];
-
-      setState(() {
-        _allArticles = articlesJson.map((json) => Article.fromJson(json)).toList();
-        _isLoading = false;
-      });
-    } catch (e) {
-      debugPrint("데이터 로딩 실패: $e");
-      setState(() { _isLoading = false; });
-    }
-  }
-
-  // 2. 즐겨찾기 리스트 계산
   List<Paragraph> get _favoriteParagraphs {
     List<Paragraph> favs = [];
     for (var art in _allArticles) {
@@ -156,56 +104,32 @@ class _MainDashboardState extends State<MainDashboard> {
     return favs;
   }
 
-  // 3. 빌드 함수 (단 하나만 존재해야 합니다)
   @override
   Widget build(BuildContext context) {
-    // 로딩 중 화면 처리
-    if (_isLoading) {
-      return const Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CircularProgressIndicator(color: Color(0xFF1B5E20)),
-              SizedBox(height: 20),
-              Text("조약 데이터를 불러오는 중입니다...", style: TextStyle(color: Color(0xFF1B5E20))),
-            ],
-          ),
-        ),
-      );
-    }
-
-    // 데이터 검색/필터링 로직
     final treaties = [
       {"name": "조약법에 관한 비엔나 협약", "code": "VCLT"},
       {"name": "국제연합헌장", "code": "UN Charter"},
-    ].where((t) => 
-      t['name']!.contains(_archiveSearchQuery) || 
-      t['code']!.contains(_archiveSearchQuery.toUpperCase())
-    ).toList();
+    ].where((t) => t['name']!.contains(_archiveSearchQuery) || t['code']!.contains(_archiveSearchQuery.toUpperCase())).toList();
 
-    // 실제 화면 구성 (Scaffold는 여기서 딱 한 번만 시작!)
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(), // 기존 코드에 있는 함수 호출
-            _buildSectionTitle("GAME ZONE", top: 30),
-            _buildGameZone(),
-            _buildSectionTitle("ARCHIVE ZONE", top: 20),
-            _buildSearchField(),
-            Expanded(
-              child: ListView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: [
-                  if (_favoriteParagraphs.isNotEmpty && _archiveSearchQuery.isEmpty)
-                    _specialCategoryCard("★ 즐겨찾기 보관함 ★", _favoriteParagraphs),
-                  ...treaties.map((t) => _treatyCard(t['name']!, t['code']!)).toList(),
-                ],
-              ),
+        child: Column(children: [
+          _buildHeader(),
+          _buildSectionTitle("GAME ZONE", top: 30),
+          _buildGameZone(),
+          _buildSectionTitle("ARCHIVE ZONE", top: 20),
+          _buildSearchField(),
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              children: [
+                if (_favoriteParagraphs.isNotEmpty && _archiveSearchQuery.isEmpty)
+                  _specialCategoryCard("★ 즐겨찾기 보관함 ★", _favoriteParagraphs),
+                ...treaties.map((t) => _treatyCard(t['name']!, t['code']!)).toList(),
+              ],
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
