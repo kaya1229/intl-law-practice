@@ -282,35 +282,18 @@ Widget build(BuildContext context) {
     ),
   );
 
-  Widget _treatyCard(String n, String c) {
-  // 공백 제거 및 대문자 변환 후 비교
-  final filtered = _allArticles.where((a) => 
-    a.treaty.trim().toUpperCase() == c.trim().toUpperCase()
-  ).toList();
+   Widget _treatyCard(String n, String c) {
+    final filtered = _allArticles.where((a) => a.treaty == c).toList();
+    return Card(elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15), side: BorderSide(color: Colors.grey.shade200)),
+      child: ListTile(
+        title: Text(n, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+        subtitle: Text("$c | 조문 ${filtered.length}개", style: const TextStyle(fontSize: 11, color: Colors.grey)), 
+        trailing: const Icon(Icons.chevron_right), 
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ArticleListScreen(articles: filtered, treatyName: n))).then((_) => setState(() {}))
+      ),
+    );
+  }
 
-  return Card(
-    elevation: 0,
-    margin: const EdgeInsets.only(bottom: 12),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-      side: BorderSide(color: Colors.grey.shade200),
-    ),
-    child: ListTile(
-      title: Text(n, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-      subtitle: Text("$c | 조문 ${filtered.length}개", 
-          style: const TextStyle(fontSize: 11, color: Colors.grey)), 
-      trailing: const Icon(Icons.chevron_right), 
-      onTap: () {
-        if (filtered.isNotEmpty) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => ArticleListScreen(articles: filtered, treatyName: n))
-          ).then((_) => setState(() {}));
-        }
-      }
-    ),
-  );
-}
   // 1. 조문 암기 모드 시작 전 선택 팝업
   void _startFullTextQuiz() {
     showDialog(
