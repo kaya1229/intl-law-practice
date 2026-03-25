@@ -930,64 +930,60 @@ Container(
     ));
   }
   
+  // 이 함수 전체를 아래 내용으로 새로 갈아 끼우세요.
   Widget _buildHierarchyLine({
-  required String prefix,
-  required String fullText,
-  required bool isTarget,
-  required Map q,
-}) {
-  // 1. 텍스트 치환 로직 (기존 로직 유지)
-  String displayContent = fullText;
+    required String prefix,
+    required String fullText,
+    required bool isTarget,
+    required Map q,
+  }) {
+    String displayContent = fullText;
 
-  if (isTarget) {
-    if (widget.mode == "FULL_TEXT") {
-      // 1-1. 조문 암기 모드: 문장 전체를 가림
-      displayContent = " [        ???        ] ";
-    } else {
-      // 1-2. 일반/키워드 모드: 정답 키워드만 [ ??? ]로 치환
-      String answer = q['ans'].toString();
-      if (fullText.contains(answer)) {
-        displayContent = fullText.replaceAll(answer, " [ ??? ] ");
+    // 1. 텍스트 치환 로직
+    if (isTarget) {
+      if (widget.mode == "FULL_TEXT") {
+        displayContent = " [         ???         ] ";
+      } else {
+        String answer = q['ans']?.toString() ?? "";
+        if (fullText.contains(answer)) {
+          displayContent = fullText.replaceAll(answer, " [ ??? ] ");
+        }
       }
     }
-  }
 
-  // 2. 정렬을 위한 UI 구조 반환
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.start, // 번호와 본문 첫 줄 높이 맞춤
-    children: [
-      // 번호(prefix) 영역: 고정 너비를 주어 본문이 이 영역을 침범하지 못하게 함
-      SizedBox(
-        width: 60, // "제 10 항 " 같은 긴 텍스트도 감당 가능한 너비
-        child: Text(
-          prefix,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
-            color: isTarget ? const Color(0xFF1B5E20) : Colors.black54,
+    // 2. UI 반환 (Row 방식 사용)
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 60, 
+          child: Text(
+            prefix,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
+              color: isTarget ? const Color(0xFF1B5E20) : Colors.black54,
+            ),
           ),
         ),
-      ),
-      
-      // 본문 영역: Expanded를 써서 남은 가로 공간을 다 채우고, 자동 줄바꿈 발생 시 들여쓰기 유지
-      Expanded(
-        child: Text(
-          displayContent,
-          style: TextStyle(
-            fontSize: 14,
-            height: 1.4, // 줄간격을 약간 주어 가독성 향상
-            fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
-            color: isTarget ? Colors.blue : Colors.black87,
-            backgroundColor: isTarget && widget.mode != "FULL_TEXT" 
-                ? Colors.yellow.withOpacity(0.2) // 키워드 모드일 때 살짝 강조 효과
-                : null,
+        Expanded(
+          child: Text(
+            displayContent,
+            style: TextStyle(
+              fontSize: 14,
+              height: 1.4,
+              fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
+              color: isTarget ? Colors.blue : Colors.black87,
+              backgroundColor: isTarget && widget.mode != "FULL_TEXT" 
+                  ? Colors.yellow.withOpacity(0.2) 
+                  : null,
+            ),
+            softWrap: true,
           ),
-          softWrap: true,
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  } // <--- 여기서 함수가 정확히 끝나야 합니다.
   /*return RichText(
     text: TextSpan(
       // family 대신 fontFamily를 사용하거나, 특정 폰트가 없다면 fontFamily 줄을 삭제하세요.
