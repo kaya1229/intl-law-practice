@@ -332,7 +332,7 @@ Widget build(BuildContext context) {
       ),
     );
   }
- void _startQuiz(String mode, {String? quizType}) {
+void _startQuiz(String mode, {String? quizType}) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -342,20 +342,10 @@ Widget build(BuildContext context) {
           quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
         ),
       ),
-    ).then((value) {
-      debugPrint("메인에 도착한 값: $value");
-      if (value != null && value is int) {
-        debugPrint("현재 최고 점수: $globalHighScore, 새로 받은 점수: $value");
-        setState(() {
-          // 얻은 점수가 최고 점수보다 높으면 업데이트
-          if (value > globalHighScore) {
-            globalHighScore = value;
-            debugPrint("최고 점수 갱신 완료!"); // 👈 3번 확인: 업데이트 성공?
-          }
-        });
-      }
-    });
+    ).then((_) => setState(() {}));
   }
+}
+
 
 // --- [2. 즐겨찾기 리스트 화면] ---
 
