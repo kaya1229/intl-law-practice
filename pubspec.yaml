@@ -13,4 +13,8 @@ dev_dependencies:
     sdk: flutter
 flutter:
   uses-material-design: true
-  # 나중에 데이터를 넣을 때 여기 아래에 assets: 를 추가할 겁니다.
+
+  # 🔍 아래 두 줄을 추가해 주세요! 
+  # (반드시 'flutter:' 보다 두 칸 안으로, 'assets:' 보다 두 칸 안으로 들여써야 합니다)
+  assets:
+    - assets/data/treaty_vclt.json
