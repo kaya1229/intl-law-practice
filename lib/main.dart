@@ -6,75 +6,60 @@ void main() => runApp(const LawLearnerApp());
 
 // --- [데이터 모델] ---
 
+// 1. 모델 클래스 수정 (JSON과 호환되도록 factory 추가)
 class SubPoint {
   final String letter;
   final String text;
-
   SubPoint({required this.letter, required this.text});
 
-  factory SubPoint.fromJson(Map<String, dynamic> json) {
-    return SubPoint(
-      letter: json['letter'] ?? "",
-      text: json['text'] ?? "",
-    );
-  }
+  factory SubPoint.fromJson(Map<String, dynamic> json) =>
+      SubPoint(letter: json['letter'] ?? "", text: json['text'] ?? "");
 }
 
 class SubItem {
   final String number;
   final String text;
   final List<SubPoint> subPoints;
+  SubItem({required this.number, required this.text, this.subPoints = const []});
 
-  SubItem({
-    required this.number, 
-    required this.text, 
-    this.subPoints = const []
-  });
-
-  factory SubItem.fromJson(Map<String, dynamic> json) {
-    return SubItem(
-      // JSON의 'letter'나 'order' 필드를 'number'로 매칭
-      number: json['letter'] ?? json['order'] ?? "", 
-      text: json['text'] ?? "",
-      subPoints: json['subPoints'] != null
-          ? (json['subPoints'] as List).map((s) => SubPoint.fromJson(s)).toList()
-          : [],
-    );
-  }
+  factory SubItem.fromJson(Map<String, dynamic> json) => SubItem(
+        number: json['letter'] ?? json['order'] ?? "",
+        text: json['text'] ?? "",
+        subPoints: json['subPoints'] != null
+            ? (json['subPoints'] as List).map((s) => SubPoint.fromJson(s)).toList()
+            : [],
+      );
 }
 
 class Paragraph {
   final String order;
   final String text;
   final List<SubItem> subItems;
-  List<String> keywords;
-  String userNote;
-  bool isFavorite;
-  int wrongCount;
+  final List<String> keywords;
+  // 부모 정보를 JSON에서 가져올 수 없으므로 기본값 처리하거나 선택사항으로 변경
+  final String parentArticleId;
+  final String parentTreaty;
 
   Paragraph({
     required this.order,
     required this.text,
     required this.subItems,
-    List<String>? keywords,
-    this.userNote = "",
-    this.isFavorite = false,
-    this.wrongCount = 0,
-  }) : keywords = keywords ?? [];
+    required this.keywords,
+    this.parentArticleId = "", // 기본값 추가
+    this.parentTreaty = "VCLT", // 기본값 추가
+  });
 
-  factory Paragraph.fromJson(Map<String, dynamic> json) {
-    return Paragraph(
-      order: json['order'] ?? "",
-      text: json['text'] ?? "",
-      subItems: (json['subItems'] as List)
-          .map((s) => SubItem.fromJson(s))
-          .toList(),
-      keywords: List<String>.from(json['keywords'] ?? []),
-      userNote: json['userNote'] ?? "",
-      isFavorite: json['isFavorite'] ?? false,
-      wrongCount: json['wrongCount'] ?? 0,
-    );
-  }
+  factory Paragraph.fromJson(Map<String, dynamic> json, String articleId, String treaty) => 
+    Paragraph(
+        order: json['order'] ?? "",
+        text: json['text'] ?? "",
+        subItems: json['subItems'] != null
+            ? (json['subItems'] as List).map((s) => SubItem.fromJson(s)).toList()
+            : [],
+        keywords: List<String>.from(json['keywords'] ?? []),
+        parentArticleId: articleId,
+        parentTreaty: treaty,
+      );
 }
 
 class Article {
@@ -83,24 +68,25 @@ class Article {
   final String treaty;
   final List<Paragraph> paragraphs;
 
-  Article({
-    required this.id,
-    required this.title,
-    required this.treaty,
-    required this.paragraphs,
-  });
+  Article({required this.id, required this.title, required this.treaty, required this.paragraphs});
 
   factory Article.fromJson(Map<String, dynamic> json) {
+    String aId = json['id'] ?? "";
+    String aTreaty = json['treaty'] ?? "";
     return Article(
-      id: json['id'] ?? "",
-      title: json['title'] ?? "",
-      treaty: json['treaty'] ?? "",
-      paragraphs: (json['paragraphs'] as List)
-          .map((p) => Paragraph.fromJson(p))
-          .toList(),
-    );
+        id: aId,
+        title: json['title'] ?? "",
+        treaty: aTreaty,
+        paragraphs: (json['paragraphs'] as List)
+            .map((p) => Paragraph.fromJson(p, aId, aTreaty))
+            .toList(),
+      );
   }
 }
+
+// 2. MainDashboard의 데이터 로딩 로직
+// initState 안에서 _allArticles = [ Article(...) ] 부분을 삭제하고 
+// 제가 이전에 드린 _loadJsonData() 함수를 넣으시면 됩니다.
 
 int globalHighScore = 0;
 
@@ -123,44 +109,37 @@ class LawLearnerApp extends StatelessWidget {
 
 // --- [1. 메인 대시보드] ---
 
-class MainDashboard extends StatefulWidget {
-  const MainDashboard({super.key});
-  @override
-  State<MainDashboard> createState() => _MainDashboardState();
-}
-
 class _MainDashboardState extends State<MainDashboard> {
   String _archiveSearchQuery = "";
-  late List<Article> _allArticles = []; // 초기값 빈 리스트로 설정
-  bool _isLoading = true; // 데이터 로딩 중인지 확인하는 변수
-  
+  List<Article> _allArticles = []; // late 제거하고 빈 리스트로 초기화
+  bool _isLoading = true;
+
   @override
   void initState() {
-  super.initState();
-  _loadJsonData(); // 실행 시 파일을 읽어오라고 시킴
-}
-
-// JSON 파일을 읽어서 Article 객체 리스트로 변환하는 함수
-Future<void> _loadJsonData() async {
-  try {
-    // 1. JSON 파일 읽기
-    final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
-    final Map<String, dynamic> data = json.decode(response);
-    
-    // 2. JSON 데이터를 Article 객체 리스트로 변환
-    final List<dynamic> articlesJson = data['articles'];
-    
-    setState(() {
-      _allArticles = articlesJson.map((json) => Article.fromJson(json)).toList();
-      _isLoading = false; // 로딩 완료!
-    });
-  } catch (e) {
-    debugPrint("데이터 로딩 실패: $e");
-    setState(() { _isLoading = false; });
-  }
-}
+    super.initState();
+    _loadJsonData();
   }
 
+  // 1. 데이터 로딩 함수 (클래스 내부 위치)
+  Future<void> _loadJsonData() async {
+    try {
+      final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
+      final Map<String, dynamic> data = json.decode(response);
+      final List<dynamic> articlesJson = data['articles'];
+
+      setState(() {
+        _allArticles = articlesJson.map((json) => Article.fromJson(json)).toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint("데이터 로딩 실패: $e");
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  // 2. 즐겨찾기 계산 (클래스 내부 위치)
   List<Paragraph> get _favoriteParagraphs {
     List<Paragraph> favs = [];
     for (var art in _allArticles) {
@@ -169,55 +148,56 @@ Future<void> _loadJsonData() async {
     return favs;
   }
 
+  // 3. 메인 빌드 함수
   @override
   Widget build(BuildContext context) {
+    // 로딩 중일 때 보여줄 화면
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 20),
+              Text("조약 데이터를 불러오는 중입니다..."),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // 데이터 검색 필터링 로직
     final treaties = [
       {"name": "조약법에 관한 비엔나 협약", "code": "VCLT"},
       {"name": "국제연합헌장", "code": "UN Charter"},
-    ].where((t) => t['name']!.contains(_archiveSearchQuery) || t['code']!.contains(_archiveSearchQuery.toUpperCase())).toList();
+    ].where((t) => 
+        t['name']!.contains(_archiveSearchQuery) || 
+        t['code']!.contains(_archiveSearchQuery.toUpperCase())
+    ).toList();
 
-    @override
-Widget build(BuildContext context) {
-  // 🟢 이 부분이 추가되는 로딩 처리 로직입니다.
-  if (_isLoading) {
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(), // 뺑글뺑글 돌아가는 아이콘
-            SizedBox(height: 20),
-            Text("조약 데이터를 불러오는 중입니다..."),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // 🔵 로딩이 끝나면 기존의 Scaffold 코드가 실행됩니다.
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text("국제법 조문 연습"),
-      // ... 나머지 기존 코드 ...
+    // 실제 화면 구성
     return Scaffold(
       body: SafeArea(
-        child: Column(children: [
-          _buildHeader(),
-          _buildSectionTitle("GAME ZONE", top: 30),
-          _buildGameZone(),
-          _buildSectionTitle("ARCHIVE ZONE", top: 20),
-          _buildSearchField(),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              children: [
-                if (_favoriteParagraphs.isNotEmpty && _archiveSearchQuery.isEmpty)
-                  _specialCategoryCard("★ 즐겨찾기 보관함 ★", _favoriteParagraphs),
-                ...treaties.map((t) => _treatyCard(t['name']!, t['code']!)).toList(),
-              ],
+        child: Column(
+          children: [
+            _buildHeader(),
+            _buildSectionTitle("GAME ZONE", top: 30),
+            _buildGameZone(),
+            _buildSectionTitle("ARCHIVE ZONE", top: 20),
+            _buildSearchField(),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                children: [
+                  if (_favoriteParagraphs.isNotEmpty && _archiveSearchQuery.isEmpty)
+                    _specialCategoryCard("★ 즐겨찾기 보관함 ★", _favoriteParagraphs),
+                  ...treaties.map((t) => _treatyCard(t['name']!, t['code']!)).toList(),
+                ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }
