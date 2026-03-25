@@ -119,6 +119,29 @@ Future<void> _loadJsonData() async {
       {"name": "국제연합헌장", "code": "UN Charter"},
     ].where((t) => t['name']!.contains(_archiveSearchQuery) || t['code']!.contains(_archiveSearchQuery.toUpperCase())).toList();
 
+    @override
+Widget build(BuildContext context) {
+  // 🟢 이 부분이 추가되는 로딩 처리 로직입니다.
+  if (_isLoading) {
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(), // 뺑글뺑글 돌아가는 아이콘
+            SizedBox(height: 20),
+            Text("조약 데이터를 불러오는 중입니다..."),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // 🔵 로딩이 끝나면 기존의 Scaffold 코드가 실행됩니다.
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text("국제법 조문 연습"),
+      // ... 나머지 기존 코드 ...
     return Scaffold(
       body: SafeArea(
         child: Column(children: [
