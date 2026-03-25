@@ -15,7 +15,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.19.0' # 최신 안정 버전 권장
+          flutter-version: '3.22.0' # 명시적으로 버전을 적어주면 더 안전합니다.
 
       # 3. 라이브러리 설치 (pubspec.yaml 읽기)
       - run: flutter pub get
