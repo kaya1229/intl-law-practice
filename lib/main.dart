@@ -871,7 +871,7 @@ Container(
                   elevation: 0,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 ),
-                onPressed: () => Navigator.pop(context), 
+                onPressed: () => Navigator.pop(context, _score),
                 child: const Text("메인 화면으로 돌아가기", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
               ),
             ),
@@ -893,7 +893,7 @@ Container(
           return ListTile(
             title: Text(item['location']), 
             subtitle: Text("정답: ${item['ans']}"),
-            trailing: Text("누적 오답: ${p.wrongCount}회", style: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.bold)),
+            trailing: Text("누적 오답 ${p.wrongCount}회", style: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.bold)),
           );
         })),
       ]),
