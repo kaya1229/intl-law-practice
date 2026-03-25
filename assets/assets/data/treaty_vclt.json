@@ -1,0 +1,1520 @@
+[
+  {
+    "id": "제1조",
+    "title": "조약의 정의",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "이 조약에서 '조약'이라 함은 국가 간의 서면 합의를 의미한다.",
+        "subItems": [],
+        "keywords": ["조약", "서면", "국가"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제2조",
+    "title": "용어의 정의",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약에 사용되는 주요 용어의 정의는 다음과 같다.",
+        "subItems": [
+          {
+            "letter": "가",
+            "text": "'체약국'이란 이 조약을 비준한 국가를 의미한다."
+          },
+          {
+            "letter": "나",
+            "text": "'조약행위'란 체약국이 조약에 따라 수행하는 모든 법적 행위를 의미한다."
+          }
+        ],
+        "keywords": ["체약국", "조약행위", "용어정의"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제3조",
+    "title": "조약의 체결",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 국가 대표자의 서명으로 체결된다.",
+        "subItems": [],
+        "keywords": ["체결", "서명", "국가대표"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제4조",
+    "title": "비준",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국의 국내 절차를 거쳐 비준되어야 한다.",
+        "subItems": [],
+        "keywords": ["비준", "체약국", "국내절차"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제5조",
+    "title": "발효",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 발효일에 따라 효력을 발생한다.",
+        "subItems": [],
+        "keywords": ["발효", "효력", "조약"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제6조",
+    "title": "조약의 수정",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 수정은 모든 체약국의 동의에 따라 이루어진다.",
+        "subItems": [],
+        "keywords": ["수정", "동의", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제7조",
+    "title": "조약의 종료",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 당사국의 합의 또는 정해진 조건 충족 시 종료된다.",
+        "subItems": [],
+        "keywords": ["종료", "합의", "조건"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제8조",
+    "title": "조약의 해석",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 해석은 문언, 목적 및 체약국의 의도를 고려하여 이루어진다.",
+        "subItems": [],
+        "keywords": ["해석", "문언", "체약국의의도"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제9조",
+    "title": "국내법과의 관계",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 효력은 국내법과 조화를 이루어야 한다.",
+        "subItems": [],
+        "keywords": ["국내법", "효력", "조화"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제10조",
+    "title": "분쟁 해결",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약과 관련한 분쟁은 평화적 수단으로 해결되어야 한다.",
+        "subItems": [],
+        "keywords": ["분쟁", "해결", "평화적수단"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제11조",
+    "title": "서명 대표",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약에 서명할 대표는 국가를 공식적으로 대표할 권한을 가진 자이어야 한다.",
+        "subItems": [],
+        "keywords": ["서명", "대표", "권한"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제12조",
+    "title": "조약의 등록",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 국제연합에 등록되어야 하며, 등록 전후의 효력에 차이가 없다.",
+        "subItems": [],
+        "keywords": ["등록", "국제연합", "효력"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제13조",
+    "title": "예외 사항",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 특별한 사유가 있을 경우 예외를 선언할 수 있다.",
+        "subItems": [],
+        "keywords": ["예외", "체약국", "선언"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제14조",
+    "title": "통지",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약과 관련한 모든 통지는 서면으로 이루어진다.",
+        "subItems": [],
+        "keywords": ["통지", "서면", "조약"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제15조",
+    "title": "체약국 변경",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약에 대한 체약국의 변경은 모든 당사국의 동의가 필요하다.",
+        "subItems": [],
+        "keywords": ["체약국", "변경", "동의"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제16조",
+    "title": "조약의 공개",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 일반 대중에게 공개되어야 한다.",
+        "subItems": [],
+        "keywords": ["공개", "조약", "대중"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제17조",
+    "title": "정정",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 문언상 오류는 정정을 통해 바로잡을 수 있다.",
+        "subItems": [],
+        "keywords": ["정정", "문언", "오류"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제18조",
+    "title": "부속 문서",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약에 첨부된 부속 문서는 조약의 일부로 간주된다.",
+        "subItems": [],
+        "keywords": ["부속문서", "조약", "간주"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제19조",
+    "title": "조약 해석 기관",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약 해석에 관한 분쟁은 국제사법재판소와 같은 공인 기관에 의해 다루어진다.",
+        "subItems": [],
+        "keywords": ["해석기관", "분쟁", "국제사법재판소"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제20조",
+    "title": "조약의 보관",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약 원문은 국제연합 사무총장에게 보관된다.",
+        "subItems": [],
+        "keywords": ["보관", "원문", "국제연합"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+
+  {
+    "id": "제21조",
+    "title": "조약의 적용 범위",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 효력은 조약에 명시된 지역과 기간 내에서만 적용된다.",
+        "subItems": [],
+        "keywords": ["적용범위", "효력", "지역", "기간"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제22조",
+    "title": "조약 당사국의 권리와 의무",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 조약에 따라 권리와 의무를 가지며 이를 성실히 이행해야 한다.",
+        "subItems": [],
+        "keywords": ["권리", "의무", "체약국", "이행"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제23조",
+    "title": "체약국 변경 통지",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 변경 사항이 발생하면 즉시 다른 체약국에 통지해야 한다.",
+        "subItems": [],
+        "keywords": ["체약국", "변경", "통지"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제24조",
+    "title": "조약의 연장",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 당사국 간 합의에 의해 연장될 수 있다.",
+        "subItems": [],
+        "keywords": ["연장", "합의", "당사국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제25조",
+    "title": "조약의 정지",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 특별한 사유가 있을 경우 조약의 효력을 일시적으로 정지할 수 있다.",
+        "subItems": [],
+        "keywords": ["정지", "체약국", "효력", "특별사유"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제26조",
+    "title": "조약의 존중",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "모든 체약국은 조약에 명시된 의무를 성실히 준수해야 한다.",
+        "subItems": [],
+        "keywords": ["존중", "의무", "체약국", "준수"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제27조",
+    "title": "국내법과 조약의 충돌",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 규정이 국내법과 충돌할 경우, 국내법을 이유로 조약 의무를 회피할 수 없다.",
+        "subItems": [],
+        "keywords": ["국내법", "충돌", "조약의무", "회피"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제28조",
+    "title": "조약의 해석 지침",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 해석은 문언과 목적, 체약국의 의도를 모두 고려하여야 한다.",
+        "subItems": [],
+        "keywords": ["해석", "문언", "목적", "체약국의의도"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제29조",
+    "title": "조약의 관습화",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 규범은 장기간 반복적 행위로 국제 관습법으로 발전할 수 있다.",
+        "subItems": [],
+        "keywords": ["관습법", "규범", "반복적행위", "발전"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제30조",
+    "title": "조약 준수의 예외",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 불가피한 상황에서 조약 준수를 일시적으로 중단할 수 있다.",
+        "subItems": [],
+        "keywords": ["예외", "조약준수", "체약국", "중단"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제31조",
+    "title": "조약의 일반 원칙",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국의 의무, 조약의 목적 및 국제법 원칙을 종합하여 해석해야 한다.",
+        "subItems": [],
+        "keywords": ["일반원칙", "체약국", "의무", "국제법"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제32조",
+    "title": "해석 보조 수단",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "문언이 명확하지 않을 경우, 조약 체결 당시의 준비 문서와 관련 자료를 참조할 수 있다.",
+        "subItems": [],
+        "keywords": ["해석", "보조수단", "준비문서", "자료참조"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제33조",
+    "title": "조약의 무효 사유",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국의 강압, 사기 또는 중대한 위법 절차에 따라 체결된 경우 무효가 될 수 있다.",
+        "subItems": [],
+        "keywords": ["무효", "강압", "사기", "위법절차"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제34조",
+    "title": "조약의 취소",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국의 합의 또는 명백한 위법 사유가 있을 경우 취소될 수 있다.",
+        "subItems": [],
+        "keywords": ["취소", "합의", "위법사유", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제35조",
+    "title": "조약의 종료 절차",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약 종료는 체약국 간의 통지 및 합의 절차를 거쳐 이루어진다.",
+        "subItems": [],
+        "keywords": ["종료절차", "통지", "합의", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제36조",
+    "title": "조약의 정지 사유",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 전쟁, 내란, 기타 불가항력 사유로 일시 정지될 수 있다.",
+        "subItems": [],
+        "keywords": ["정지", "전쟁", "내란", "불가항력"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제37조",
+    "title": "조약의 해석 충돌",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "동일한 주제를 다루는 두 조약이 충돌할 경우, 체약국은 조약 체결 순서 및 의도를 고려하여 해석한다.",
+        "subItems": [],
+        "keywords": ["해석", "충돌", "체약국", "조약체결순서"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제38조",
+    "title": "조약의 통지 및 등록",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 모든 통지 및 등록은 국제연합 사무총장에게 이루어져야 한다.",
+        "subItems": [],
+        "keywords": ["통지", "등록", "국제연합"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제39조",
+    "title": "조약 준수 보장",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 조약 이행을 위해 필요한 모든 조치를 취해야 한다.",
+        "subItems": [],
+        "keywords": ["준수", "체약국", "조치", "이행"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제40조",
+    "title": "조약의 최종 규정",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "본 조약에 명시되지 않은 사항은 국제 관습법과 일반 국제법 원칙에 따라 처리한다.",
+        "subItems": [],
+        "keywords": ["최종규정", "국제관습법", "국제법원칙"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제41조",
+    "title": "조약의 수정",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국의 합의에 의해 언제든지 수정될 수 있다.",
+        "subItems": [],
+        "keywords": ["수정", "합의", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제42조",
+    "title": "조약의 해석 우선순위",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 문언과 목적이 상충할 경우, 체약국의 의도와 조약의 전체 문맥을 우선 고려한다.",
+        "subItems": [],
+        "keywords": ["해석", "우선순위", "문언", "목적", "체약국의의도"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제43조",
+    "title": "조약의 이행 보증",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 조약 이행을 위해 필요한 입법적, 행정적 조치를 취해야 한다.",
+        "subItems": [],
+        "keywords": ["이행", "보증", "체약국", "입법", "행정조치"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제44조",
+    "title": "조약과 국제 분쟁",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 해석이나 이행에 관한 분쟁은 평화적 수단으로 해결해야 한다.",
+        "subItems": [],
+        "keywords": ["국제분쟁", "조약해석", "이행", "평화적해결"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제45조",
+    "title": "조약의 조기 종료",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국 간 합의 또는 정당한 사유가 있을 경우 조기 종료될 수 있다.",
+        "subItems": [],
+        "keywords": ["조기종료", "합의", "정당사유", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제46조",
+    "title": "조약의 해석 일관성",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 해석은 다른 국제법 규범과 일관성을 유지해야 한다.",
+        "subItems": [],
+        "keywords": ["해석", "일관성", "국제법규범"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제47조",
+    "title": "조약의 일부 무효",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 일부 조항이 무효가 되더라도 나머지 조항은 여전히 유효하다.",
+        "subItems": [],
+        "keywords": ["부분무효", "조약조항", "유효"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제48조",
+    "title": "조약의 유보",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 조약의 특정 조항에 대해 유보를 선언할 수 있으며, 그 유보는 다른 체약국에 통지해야 한다.",
+        "subItems": [],
+        "keywords": ["유보", "체약국", "통지", "조약조항"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제49조",
+    "title": "유보의 제한",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "유보는 조약의 목적과 취지에 반하지 않아야 하며, 다른 체약국의 동의가 필요할 수 있다.",
+        "subItems": [],
+        "keywords": ["유보제한", "목적", "취지", "체약국동의"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제50조",
+    "title": "조약의 유효성 확인",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약 체결 전, 모든 체약국은 조약의 내용과 법적 효력을 충분히 검토해야 한다.",
+        "subItems": [],
+        "keywords": ["유효성", "체결전검토", "체약국", "법적효력"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제51조",
+    "title": "조약 체결 절차",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국의 합법적 권한을 가진 대표에 의해 체결되어야 한다.",
+        "subItems": [],
+        "keywords": ["체결절차", "체약국", "대표권한"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제52조",
+    "title": "조약의 체결 의사",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체약국은 조약 체결에 대한 명백한 의사를 표명해야 한다.",
+        "subItems": [],
+        "keywords": ["체결의사", "명백", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제53조",
+    "title": "조약의 체결 문서",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약 문서는 체결 시 모든 체약국이 서명하고 기록되어야 한다.",
+        "subItems": [],
+        "keywords": ["체결문서", "서명", "기록", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제54조",
+    "title": "조약의 비준",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "체결 후, 각 체약국은 국내 절차에 따라 조약을 비준해야 한다.",
+        "subItems": [],
+        "keywords": ["비준", "체약국", "국내절차"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제55조",
+    "title": "조약의 발효",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국 간 합의된 발효일 또는 필요한 비준 완료 후 발효한다.",
+        "subItems": [],
+        "keywords": ["발효", "합의", "체약국", "비준완료"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제56조",
+    "title": "조약의 등록",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 발효 후 국제연합 사무총장에게 등록되어야 한다.",
+        "subItems": [],
+        "keywords": ["등록", "국제연합", "발효"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제57조",
+    "title": "조약의 공표",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국 및 국제사회에 공표되어야 한다.",
+        "subItems": [],
+        "keywords": ["공표", "체약국", "국제사회"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제58조",
+    "title": "조약의 효력 발생",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 발효일로부터 체약국에 대하여 법적 효력을 가진다.",
+        "subItems": [],
+        "keywords": ["효력", "발효일", "체약국", "법적효력"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제59조",
+    "title": "조약의 폐기",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 체약국의 합의 또는 중대한 사유에 의해 폐기될 수 있다.",
+        "subItems": [],
+        "keywords": ["폐기", "합의", "중대한사유", "체약국"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제60조",
+    "title": "조약의 조기 종료 사유",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 전쟁, 내란, 불가항력 등 정당한 사유가 있을 경우 조기 종료될 수 있다.",
+        "subItems": [],
+        "keywords": ["조기종료", "전쟁", "내란", "불가항력", "정당사유"],
+        "userNote": "",
+        "isFavorite": false,
+        "wrongCount": 0
+      }
+    ]
+  },
+  {
+    "id": "제61조",
+    "title": "후발적 이행불능",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 이행불능이 필수 대상의 영구적 소멸 또는 파괴로 인한 경우, 당사자는 이를 종료 또는 시행정지의 사유로 원용할 수 있다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "이행불능이 일시적인 경우에는 조약 시행정지의 사유로만 원용할 수 있으며, 당사자의 위반 결과인 경우 원용할 수 없다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["이행불능", "영구 소멸", "종료", "시행정지"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제62조",
+    "title": "사정의 근본적 변경",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "사정의 근본적 변경이 조약 체결 당시 필수적 기초를 구성하고, 변경 효과가 의무 범위를 근본적으로 변화하는 경우, 당사자는 조약 종료 또는 탈퇴 사유로 원용할 수 있다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "사정의 근본적 변경은 경계선을 확정하는 조약이나 위반 결과로 발생한 경우에는 원용할 수 없다.",
+        "subItems": []
+      },
+      {
+        "order": "3",
+        "text": "근본적 변경을 종료 또는 탈퇴 사유로 원용할 경우, 시행정지 사유로도 원용할 수 있다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["근본적 변경", "조약 종료", "탈퇴", "사정 변화"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제63조",
+    "title": "외교 또는 영사 관계의 단절",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "외교 또는 영사 관계의 단절은 조약 적용에 불가결한 경우를 제외하고, 조약상 법률관계에 영향을 주지 않는다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["외교 관계", "영사 관계", "단절", "법률관계"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제64조",
+    "title": "일반국제법상 새로운 절대규범의 출현",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "일반국제법상 새로운 절대규범이 출현하는 경우, 그 규범과 충돌하는 기존 조약은 무효로 되어 종료된다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["절대규범", "강행규범", "무효", "조약 종료"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제65조",
+    "title": "조약의 절차",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 무효, 종료, 탈퇴 또는 시행정지 사유를 원용하고자 하는 당사자는 다른 당사자에게 통보해야 하며, 이 통보에는 취할 조치와 그 이유를 명시해야 한다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "통보 후 3개월 이내 어느 당사자도 이의를 제기하지 않으면, 통보한 당사자는 제의한 조치를 실행할 수 있다.",
+        "subItems": []
+      },
+      {
+        "order": "3",
+        "text": "이의가 제기된 경우, 당사자는 국제연합헌장 제33조에 열거된 수단으로 해결을 도모해야 한다.",
+        "subItems": []
+      },
+      {
+        "order": "4",
+        "text": "어떠한 항도 분쟁 해결에 관한 당사자의 유효한 권리 또는 의무에 영향을 주지 않는다.",
+        "subItems": []
+      },
+      {
+        "order": "5",
+        "text": "사전 통보를 하지 않은 사실은 조약 이행 요구 또는 위반 주장에 대한 답변을 방해하지 않는다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["절차", "통보", "이의", "분쟁 해결"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제66조",
+    "title": "사법적 해결, 중재 및 조정",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "통보 후 12개월 이내 해결에 이르지 못한 경우, 당사자는 공동 합의로 중재에 회부하거나 국제사법재판소에 서면 신청할 수 있다.",
+        "subItems": [
+          {
+            "letter": "가",
+            "text": "공동 합의로 분쟁을 중재에 회부한다."
+          },
+          {
+            "letter": "나",
+            "text": "국제사법재판소에 서면 신청으로 분쟁을 회부할 수 있다."
+          }
+        ]
+      },
+      {
+        "order": "2",
+        "text": "협약 제5부의 다른 조의 적용이나 해석에 관한 분쟁은 국제연합 사무총장에게 요청서를 제출함으로써 절차를 개시할 수 있다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["사법적 해결", "중재", "국제사법재판소", "절차"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제67조",
+    "title": "조약 무효선언, 종료, 탈퇴 또는 시행정지를 위한 문서",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "통보 및 문서는 서면으로 해야 한다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "조약 규정 또는 통보, 시행정지에 관한 행위는 다른 당사자에게 전달되는 문서를 통해 이루어진다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["문서", "서면", "통지", "전달"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제68조",
+    "title": "통보 및 문서의 철회",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "제65조 또는 제67조에 규정된 통보 또는 문서는 그 효력이 발생하기 전 언제든지 철회될 수 있다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["철회", "통보", "문서", "효력"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제69조",
+    "title": "조약 무효의 효과",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "이 협약에 따라 무효로 확정된 조약은 효력이 없으며, 무효인 조약의 규정은 법적 효력이 없다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "무효인 조약의 이행된 행위에 대해서는 가능한 한 원상회복을 요구할 수 있다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["무효", "효과", "원상회복", "법적 효력"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제70조",
+    "title": "조약 종료의 효과",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약이 종료되면 당사자에 대한 향후 의무는 해제되며, 시행 전 권리·의무는 영향을 받지 않는다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "국가는 다자조약을 폐기하거나 탈퇴하는 경우, 그 효력이 발생한 일자부터 제1항을 적용한다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["조약 종료", "효과", "의무", "다자조약"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제71조",
+    "title": "절대규범과 충돌하는 조약 무효의 효과",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "절대규범과 충돌하는 조약의 경우, 당사자는 해당 행위의 효과를 가능한 한 제거한다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "절대규범과 충돌하여 종료되는 조약의 효과는 제70조와 같다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["절대규범", "충돌", "무효", "효과"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제72조",
+    "title": "조약 시행정지의 효과",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 시행정지는 정지된 당사자 간에는 시행 의무가 해제된다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "시행정지 기간 동안 당사자는 조약 시행 재개를 방해하는 행위를 삼가야 한다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["시행정지", "효과", "의무 해제", "재개"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제73조",
+    "title": "국가승계, 국가책임 및 적대행위",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "국가승계, 국가 책임 또는 적대행위 발발의 경우 조약에 관한 문제에 대해 어떤 예단도 하지 않는다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["국가승계", "국가책임", "적대행위", "예단 없음"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제74조",
+    "title": "외교 및 영사관계와 조약의 체결",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "외교 또는 영사관계의 단절이나 부재는 조약 체결을 방해하지 않는다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["외교관계", "영사관계", "조약 체결", "방해 금지"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제75조",
+    "title": "침략국의 경우",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "침략국의 침략과 관련한 조치로 인하여 발생할 수 있는 의무에도 이 협약 규정이 영향을 주지 않는다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["침략국", "조약 의무", "영향 없음"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제76조",
+    "title": "조약의 기탁처",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약의 기탁처는 교섭국이 지정한 국가, 국제기구 또는 기관이 될 수 있다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "기탁처는 국제적 성격을 가지며 공정하게 행동해야 한다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["기탁처", "지정", "공정"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제77조",
+    "title": "기탁처의 임무",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "기탁처의 임무는 송달된 조약 및 전권위임장 원본 보관, 인증등본 작성, 당사자에게 전달 등으로 구성된다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["기탁처 임무", "보관", "인증등본", "전달"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  }
+[
+  {
+    "id": "제78조",
+    "title": "통보 및 전달사항",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약 또는 이 협약이 달리 규정하는 경우를 제외하고, 당사자가 행하는 통보 또는 전달사항은 기탁처가 없는 경우에는 각 당사자에게 직접 전달되고, 기탁처가 있는 경우에는 기탁처에게 전달된다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "기탁처에 전달된 경우, 기탁처가 이를 접수한 때 또는 대상 국가가 이를 접수한 것으로 간주되는 때까지 해당 국가에 접수된 것으로 간주되지 않는다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["통보", "전달사항", "기탁처", "접수"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제79조",
+    "title": "조약문 또는 인증등본상 오류 정정",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "정본인증 후 서명국 및 체약국이 오류가 있는 경우 합의된 정정 방법에 따라 오류를 정정한다.",
+        "subItems": [
+          {
+            "letter": "가",
+            "text": "조약문에 직접 정정을 가하고 정당한 권한을 가진 대표가 가서명하는 방법"
+          },
+          {
+            "letter": "나",
+            "text": "정정 내용을 기재한 문서를 작성하거나 교환하는 방법"
+          },
+          {
+            "letter": "다",
+            "text": "원문과 동일한 절차에 의한 전체 정정본을 작성하는 방법"
+          }
+        ]
+      },
+      {
+        "order": "2",
+        "text": "기탁처가 있는 경우 정정안을 통보하고 이의가 없으면 정정하여 사본을 전달한다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["오류 정정", "정정 방법", "기탁처"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제80조",
+    "title": "조약 등록 및 발간",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "조약은 발효 후 등록 및 발간을 위해 국제연합 사무총장에게 전달된다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "기탁처의 지정은 전항의 행위를 이행할 권한을 부여한다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["등록", "발간", "국제연합", "기탁처"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제81조",
+    "title": "서명",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "이 협약은 국제연합, 전문기구 또는 국제원자력기구 회원국, 국제사법재판소 규정 당사자 및 초청받은 모든 국가가 서명할 수 있다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "1969년 11월 30일까지 오스트리아 빈에서, 그 이후 1970년 4월 30일까지는 뉴욕 국제연합 본부에서 서명할 수 있다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["서명", "회원국", "날짜", "장소"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제82조",
+    "title": "비준",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "이 협약은 비준의 대상이 되며, 비준서는 국제연합 사무총장에게 기탁된다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["비준", "기탁"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제83조",
+    "title": "가입",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "제81조에 언급된 범주에 속하는 국가는 협약에 가입할 수 있으며, 가입서는 국제연합 사무총장에게 기탁된다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["가입", "국가", "기탁"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제84조",
+    "title": "발효",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "협약은 35번째 비준서 또는 가입서가 기탁된 날 후 30일째 되는 날에 발효한다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "이후 비준 또는 가입하는 국가에 대해서는 해당 국가가 기탁한 날 후 30일째 되는 날에 발효한다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["발효", "비준", "가입", "기탁"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "제85조",
+    "title": "정본",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "중국어, 영어, 프랑스어, 러시아어 및 스페인어본이 동등하게 정본으로 인정되며, 원본은 국제연합 사무총장에게 기탁된다.",
+        "subItems": []
+      }
+    ],
+    "keywords": ["정본", "언어본", "기탁"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  },
+  {
+    "id": "부속서",
+    "title": "부속서 – 조정위원 명부 및 절차",
+    "treaty": "VCLT",
+    "paragraphs": [
+      {
+        "order": "1",
+        "text": "국제연합 사무총장은 자격 있는 법률가로 구성되는 조정위원 명부를 유지하며, 각 국가는 2명의 조정위원을 지명할 수 있다.",
+        "subItems": []
+      },
+      {
+        "order": "2",
+        "text": "제66조에 따라 요청받은 경우, 사무총장은 조정위원회를 구성하고 분쟁을 회부한다.",
+        "subItems": [
+          {
+            "letter": "가",
+            "text": "당사자 국가 또는 국가들은 각각 1명의 조정위원을 임명한다."
+          },
+          {
+            "letter": "나",
+            "text": "추가로 명부에서 선임된 제5의 조정위원이 위원장이 된다."
+          }
+        ]
+      }
+    ],
+    "keywords": ["부속서", "조정위원", "분쟁", "위원회"],
+    "userNote": "",
+    "isFavorite": false,
+    "wrongCount": 0
+  }
+]
