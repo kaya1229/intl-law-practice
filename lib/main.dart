@@ -22,11 +22,15 @@ class SubItem {
   final List<SubPoint> subPoints;
   SubItem({required this.number, required this.text, this.subPoints = const []});
 
+  // 수정된 SubItem factory
   factory SubItem.fromJson(Map<String, dynamic> json) => SubItem(
-        number: json['letter'] ?? "", // JSON의 'letter'를 'number'로 매칭
-        text: json['text'] ?? "",
-        subPoints: [], // 현재 제공된 JSON 구조에 맞춰 빈 리스트 처리 (필요시 확장)
-      );
+      // JSON에 letter가 없으면 number를 찾아보고, 둘 다 없으면 빈 문자열
+      number: (json['letter'] ?? json['number'] ?? "").toString(), 
+      text: json['text'] ?? "",
+      subPoints: (json['subPoints'] as List? ?? [])
+          .map((s) => SubPoint.fromJson(s))
+          .toList(),
+    );
 }
 
 class Paragraph {
@@ -131,10 +135,6 @@ class _MainDashboardState extends State<MainDashboard> {
       setState(() {
         _allArticles = data.map((json) => Article.fromJson(json)).toList();
         _isLoading = false;
-        print("불러온 총 조문 수: ${_allArticles.length}"); // 이게 0이면 JSON 로딩 자체의 문제
-    if (_allArticles.isNotEmpty) {
-      print("첫 번째 조문의 조약명: ${_allArticles[0].treaty}"); // 이게 VCLT인지 확인
-    }
       });
     } catch (e) {
       debugPrint("데이터 로딩 실패: $e");
@@ -283,16 +283,34 @@ Widget build(BuildContext context) {
   );
 
   Widget _treatyCard(String n, String c) {
-    final filtered = _allArticles.where((a) => a.treaty == c).toList();
-    return Card(elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15), side: BorderSide(color: Colors.grey.shade200)),
-      child: ListTile(
-        title: Text(n, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-        subtitle: Text("$c | 조문 ${filtered.length}개", style: const TextStyle(fontSize: 11, color: Colors.grey)), 
-        trailing: const Icon(Icons.chevron_right), 
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ArticleListScreen(articles: filtered, treatyName: n))).then((_) => setState(() {}))
-      ),
-    );
-  }
+  // 공백 제거 및 대문자 변환 후 비교
+  final filtered = _allArticles.where((a) => 
+    a.treaty.trim().toUpperCase() == c.trim().toUpperCase()
+  ).toList();
+
+  return Card(
+    elevation: 0,
+    margin: const EdgeInsets.only(bottom: 12),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+      side: BorderSide(color: Colors.grey.shade200),
+    ),
+    child: ListTile(
+      title: Text(n, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+      subtitle: Text("$c | 조문 ${filtered.length}개", 
+          style: const TextStyle(fontSize: 11, color: Colors.grey)), 
+      trailing: const Icon(Icons.chevron_right), 
+      onTap: () {
+        if (filtered.isNotEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => ArticleListScreen(articles: filtered, treatyName: n))
+          ).then((_) => setState(() {}));
+        }
+      }
+    ),
+  );
+}
   // 1. 조문 암기 모드 시작 전 선택 팝업
   void _startFullTextQuiz() {
     showDialog(
