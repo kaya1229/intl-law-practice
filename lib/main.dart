@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'dart:convert'; // 추가
+import 'package:flutter/services.dart'; // 추가
+import 'package:flutter/material.dart';
 
 void main() => runApp(const LawLearnerApp());
 
@@ -8,6 +11,9 @@ class SubPoint {
   final String letter;
   final String text;
   SubPoint({required this.letter, required this.text});
+
+  factory SubPoint.fromJson(Map<String, dynamic> json) => 
+      SubPoint(letter: json['letter'] ?? "", text: json['text'] ?? "");
 }
 
 class SubItem {
@@ -15,13 +21,19 @@ class SubItem {
   final String text;
   final List<SubPoint> subPoints;
   SubItem({required this.number, required this.text, this.subPoints = const []});
+
+  factory SubItem.fromJson(Map<String, dynamic> json) => SubItem(
+        number: json['letter'] ?? "", // JSON의 'letter'를 'number'로 매칭
+        text: json['text'] ?? "",
+        subPoints: [], // 현재 제공된 JSON 구조에 맞춰 빈 리스트 처리 (필요시 확장)
+      );
 }
 
 class Paragraph {
   final String order;
   final String text;
   final List<SubItem> subItems;
-  List<String> keywords; 
+  List<String> keywords;
   String userNote;
   bool isFavorite;
   int wrongCount;
@@ -33,6 +45,22 @@ class Paragraph {
     required this.parentArticleId, required this.parentTreaty,
     List<String>? keywords, this.userNote = "", this.isFavorite = false, this.wrongCount = 0,
   }) : keywords = keywords ?? [];
+
+  factory Paragraph.fromJson(Map<String, dynamic> json, String articleId, String treaty) {
+    return Paragraph(
+      order: json['order'] ?? "1",
+      text: json['text'] ?? "",
+      parentArticleId: articleId,
+      parentTreaty: treaty,
+      subItems: (json['subItems'] as List? ?? [])
+          .map((s) => SubItem.fromJson(s))
+          .toList(),
+      keywords: List<String>.from(json['keywords'] ?? []),
+      isFavorite: json['isFavorite'] ?? false,
+      wrongCount: json['wrongCount'] ?? 0,
+      userNote: json['userNote'] ?? "",
+    );
+  }
 }
 
 class Article {
@@ -41,8 +69,20 @@ class Article {
   final String treaty;
   final List<Paragraph> paragraphs;
   Article({required this.id, required this.title, required this.treaty, required this.paragraphs});
-}
 
+  factory Article.fromJson(Map<String, dynamic> json) {
+    String articleId = json['id'] ?? "";
+    String treatyName = json['treaty'] ?? "VCLT";
+    return Article(
+      id: articleId,
+      title: json['title'] ?? "",
+      treaty: treatyName,
+      paragraphs: (json['paragraphs'] as List? ?? [])
+          .map((p) => Paragraph.fromJson(p, articleId, treatyName))
+          .toList(),
+    );
+  }
+}
 int globalHighScore = 0;
 
 class LawLearnerApp extends StatelessWidget {
@@ -72,28 +112,30 @@ class MainDashboard extends StatefulWidget {
 
 class _MainDashboardState extends State<MainDashboard> {
   String _archiveSearchQuery = "";
-  late List<Article> _allArticles;
+  List<Article> _allArticles = []; // 초기값 빈 리스트
+  bool _isLoading = true; // 로딩 상태 추가
 
   @override
   void initState() {
     super.initState();
-    _allArticles = [
-      Article(
-        id: "제2조", title: "용어의 정의", treaty: "VCLT",
-        paragraphs: [
-          Paragraph(
-            order: "1", text: "이 협약의 목적상 다음의 용어는 아래의 의미를 가진다.",
-            parentArticleId: "제2조", parentTreaty: "VCLT",
-            subItems: [
-              SubItem(number: "1", text: "'조약'이라 함은 국가간에 서면 형식으로 체결된 합의를 말한다.", subPoints: [
-                SubPoint(letter: "가", text: "단일의 문서에 포함되어 있는 것")
-              ])
-            ],
-            keywords: ["서면", "단일"],
-          )
-        ],
-      ),
-    ];
+    _loadData(); // 데이터 로드 시작
+  }
+
+  Future<void> _loadData() async {
+    try {
+      // 1. JSON 파일 읽기
+      final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
+      final List<dynamic> data = json.decode(response);
+
+      // 2. 모델로 변환
+      setState(() {
+        _allArticles = data.map((json) => Article.fromJson(json)).toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      debugPrint("데이터 로딩 실패: $e");
+      setState(() => _isLoading = false);
+    }
   }
 
   List<Paragraph> get _favoriteParagraphs {
@@ -105,11 +147,16 @@ class _MainDashboardState extends State<MainDashboard> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final treaties = [
+Widget build(BuildContext context) {
+  if (_isLoading) {
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
+  }
+  final treaties = [
       {"name": "조약법에 관한 비엔나 협약", "code": "VCLT"},
       {"name": "국제연합헌장", "code": "UN Charter"},
     ].where((t) => t['name']!.contains(_archiveSearchQuery) || t['code']!.contains(_archiveSearchQuery.toUpperCase())).toList();
+
+
 
     return Scaffold(
       body: SafeArea(
