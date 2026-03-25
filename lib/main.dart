@@ -41,6 +41,9 @@ class Paragraph {
   final String parentTreaty;
   bool isFavorite;
 
+  int wrongCount; // 오답 횟수 추적용
+  String userNote; // 필기 내용 저장용
+
   Paragraph({
     required this.order,
     required this.text,
@@ -49,6 +52,8 @@ class Paragraph {
     this.parentArticleId = "", // 기본값 추가
     this.parentTreaty = "VCLT", // 기본값 추가
     this.isFavorite = false,
+    this.wrongCount = 0, // 기본값 0
+    this.userNote = "",  // 기본값 공백
   });
 
   factory Paragraph.fromJson(Map<String, dynamic> json, String articleId, String treaty) => 
@@ -62,6 +67,8 @@ class Paragraph {
         parentArticleId: articleId,
         parentTreaty: treaty,
         isFavorite: json['isFavorite'] ?? false,
+        wrongCount: json['wrongCount'] ?? 0, // JSON에 없어도 0으로 초기화
+        userNote: json['userNote'] ?? "",    // JSON에 없어도 공백으로 초기화
       );
 }
 
