@@ -342,9 +342,17 @@ Widget build(BuildContext context) {
           quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((value) { // 👈 (_)를 (value)로 변경
+      if (value != null && value is int) {
+        setState(() {
+          // 얻은 점수가 최고 점수보다 높으면 업데이트
+          if (value > globalHighScore) {
+            globalHighScore = value;
+          }
+        });
+      }
+    });
   }
-}
 
 // --- [2. 즐겨찾기 리스트 화면] ---
 
