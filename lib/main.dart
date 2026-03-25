@@ -982,34 +982,7 @@ Container(
         ),
       ],
     );
-  } // <--- 여기서 함수가 정확히 끝나야 합니다.
-  /*return RichText(
-    text: TextSpan(
-      // family 대신 fontFamily를 사용하거나, 특정 폰트가 없다면 fontFamily 줄을 삭제하세요.
-      style: const TextStyle(
-        color: Colors.black87, 
-        height: 1.5, 
-        fontSize: 13, 
-        fontFamily: 'Pretendard', // ← 여기서 family를 fontFamily로 수정!
-      ), 
-      children: [
-        // '제 1항' 같은 앞부분 (진하게)
-        TextSpan(
-          text: prefix, 
-          style: const TextStyle(fontWeight: FontWeight.bold)
-        ),
-        // 실제 본문 내용 (문제인 경우 하이라이트)
-        TextSpan(
-          text: displayContent,
-          style: TextStyle(
-            color: isTarget ? const Color(0xFF1B5E20) : Colors.black54,
-            fontWeight: isTarget ? FontWeight.w900 : FontWeight.normal,
-            backgroundColor: null,
-          ),
-        ),
-      ],
-    ),
-  );*/
+  } 
 
 
 // --- [4. 조문 리스트 화면 (검색 기능 복구)] ---
