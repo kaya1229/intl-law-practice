@@ -656,23 +656,34 @@ Container(
     border: Border.all(color: const Color(0xFFC8E6C9))
   ),
   child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start, 
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // 1. 상단 위치 정보
+      // 1. 위치 정보 (제1조 등)
       Text(q['location'], style: const TextStyle(fontSize: 12, color: Color(0xFF1B5E20), fontWeight: FontWeight.bold)),
-      const Divider(height: 25, color: Color(0xFFC8E6C9)),
+      const Divider(height: 25),
 
       // 2. [항] 출력
       _buildHierarchyLine(
         prefix: "제 ${q['paragraph'].order} 항 ",
         fullText: q['paragraph'].text,
-        // 암기모드 정답이거나, 키워드 모드에서 '항'에 문제가 걸렸을 때
-        isTarget: q['type'] == "PARA" || q['subInfo'] == "항",
+        isTarget: q['type'] == "PARA",
         q: q,
       ),
 
-      // 3. [호/목] 출력
-      ...(q['paragraph'] as Paragraph).subItems.map((item) {
+      // 3. [호/목] 출력 로직
+      ...(q['paragraph'] as Paragraph).subItems
+          .where((item) {
+            // [필터링 1] 내가 정답이거나, 내 자식(목) 중에 정답이 있거나, 
+            // 혹은 항이 정답일 때 내가 상위 2개 안에 들거나
+            bool isMyChildTarget = item.subPoints.any((pt) => pt == q['subPoint']);
+            bool isIAmTarget = (item == q['subItem']);
+            bool isParentTarget = (q['type'] == "PARA");
+            
+            // 항이 정답일 때는 '호'를 최대 2개까지만 보여줌 (아래 take와 연동)
+            return isIAmTarget || isMyChildTarget || isParentTarget;
+          })
+          .take(q['type'] == "PARA" ? 2 : 10) // 항이 정답이면 호는 2개만, 아니면 제약 없이(충분히)
+          .map((item) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -681,22 +692,29 @@ Container(
               child: _buildHierarchyLine(
                 prefix: "${item.number}) ",
                 fullText: item.text,
-                // 암기모드 정답이거나, 키워드 모드에서 이 '호'가 문제일 때
-                isTarget: q['subItem'] == item || (q['subInfo'] == "호" && item.text.contains(q['ans'].toString())),
+                isTarget: item == q['subItem'],
                 q: q,
               ),
             ),
-            // [목] 출력
-            ...item.subPoints.map((pt) => Padding(
-              padding: const EdgeInsets.only(left: 20, top: 4),
-              child: _buildHierarchyLine(
-                prefix: "${pt.letter}) ",
-                fullText: pt.text,
-                // 암기모드 정답이거나, 키워드 모드에서 이 '목'이 문제일 때
-                isTarget: q['subPoint'] == pt || (q['subInfo'] == "목" && pt.text.contains(q['ans'].toString())),
-                q: q,
-              ),
-            )),
+            
+            // 4. [목] 출력 로직
+            ...item.subPoints
+                .where((pt) {
+                  // [필터링 2] 내가 정답이거나, 내 부모(호)가 정답일 때 상위 2개 안에 들거나
+                  bool isIAmTarget = (pt == q['subPoint']);
+                  bool isParentTarget = (item == q['subItem']);
+                  return isIAmTarget || isParentTarget;
+                })
+                .take(item == q['subItem'] ? 2 : 10) // 호가 정답이면 목은 2개만
+                .map((pt) => Padding(
+                  padding: const EdgeInsets.only(left: 20, top: 4),
+                  child: _buildHierarchyLine(
+                    prefix: "${pt.letter}) ",
+                    fullText: pt.text,
+                    isTarget: pt == q['subPoint'],
+                    q: q,
+                  ),
+                )),
           ],
         );
       }).toList(),
@@ -918,15 +936,15 @@ Container(
   required bool isTarget,
   required Map q,
 }) {
+  // 1. 텍스트 치환 로직 (기존 로직 유지)
   String displayContent = fullText;
 
   if (isTarget) {
     if (widget.mode == "FULL_TEXT") {
-      // 1. 조문 암기 모드: 문장 전체를 가림
-      displayContent = " [       ???        ] ";
+      // 1-1. 조문 암기 모드: 문장 전체를 가림
+      displayContent = " [        ???        ] ";
     } else {
-      // 2. 일반/키워드 모드: 정답 키워드만 [ ??? ]로 치환
-      // q['ans']가 문장에 포함되어 있을 때만 치환
+      // 1-2. 일반/키워드 모드: 정답 키워드만 [ ??? ]로 치환
       String answer = q['ans'].toString();
       if (fullText.contains(answer)) {
         displayContent = fullText.replaceAll(answer, " [ ??? ] ");
@@ -934,6 +952,42 @@ Container(
     }
   }
 
+  // 2. 정렬을 위한 UI 구조 반환
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start, // 번호와 본문 첫 줄 높이 맞춤
+    children: [
+      // 번호(prefix) 영역: 고정 너비를 주어 본문이 이 영역을 침범하지 못하게 함
+      SizedBox(
+        width: 60, // "제 10 항 " 같은 긴 텍스트도 감당 가능한 너비
+        child: Text(
+          prefix,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
+            color: isTarget ? const Color(0xFF1B5E20) : Colors.black54,
+          ),
+        ),
+      ),
+      
+      // 본문 영역: Expanded를 써서 남은 가로 공간을 다 채우고, 자동 줄바꿈 발생 시 들여쓰기 유지
+      Expanded(
+        child: Text(
+          displayContent,
+          style: TextStyle(
+            fontSize: 14,
+            height: 1.4, // 줄간격을 약간 주어 가독성 향상
+            fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
+            color: isTarget ? Colors.blue : Colors.black87,
+            backgroundColor: isTarget && widget.mode != "FULL_TEXT" 
+                ? Colors.yellow.withOpacity(0.2) // 키워드 모드일 때 살짝 강조 효과
+                : null,
+          ),
+          softWrap: true,
+        ),
+      ),
+    ],
+  );
+}
   return RichText(
     text: TextSpan(
       // family 대신 fontFamily를 사용하거나, 특정 폰트가 없다면 fontFamily 줄을 삭제하세요.
@@ -955,7 +1009,6 @@ Container(
           style: TextStyle(
             color: isTarget ? const Color(0xFF1B5E20) : Colors.black54,
             fontWeight: isTarget ? FontWeight.w900 : FontWeight.normal,
-            // 문제 줄만 연한 녹색 배경을 깔아줍니다.
             backgroundColor: null,
           ),
         ),
@@ -1041,7 +1094,7 @@ class _ArticleListScreenState extends State<ArticleListScreen> {
                 ),
                 // 중앙: 조항 번호 및 제목
                 title: Text(
-                  "${article.id} ${article.title}",
+                  "${article.id}\n ${article.title}",
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: isFav ? FontWeight.bold : FontWeight.w500,
@@ -1114,11 +1167,31 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
       ...p.subItems.map((s) => Padding(
         padding: const EdgeInsets.only(left: 15, top: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("${s.number}. ${s.text}", style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          Text("${s.number}. ${s.text}", style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
           ...s.subPoints.map((pt) => Padding(
-            padding: const EdgeInsets.only(left: 15, top: 5),
-            child: Text("${pt.letter}. ${pt.text}", style: const TextStyle(fontSize: 13, color: Colors.black)),
-          )).toList(),
+  padding: const EdgeInsets.only(left: 15, top: 5), // '호'에서의 들여쓰기
+  child: Row(
+    crossAxisAlignment: CrossAxisAlignment.start, // 번호와 본문의 첫 줄을 맞춤
+    children: [
+      // 1. 번호 영역 (고정 너비)
+      SizedBox(
+        width: 25, // '가.', '나.' 등이 차지할 공간 (조절 가능)
+        child: Text(
+          "${pt.letter}.", 
+          style: const TextStyle(fontSize: 13, color: Colors.black)
+        ),
+      ),
+      // 2. 본문 영역 (줄바꿈 시 번호 너비만큼 들여쓰기 유지)
+      Expanded(
+        child: Text(
+          pt.text, 
+          style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 13, color: Colors.black),
+          softWrap: true, // 자동 줄바꿈 활성화
+        ),
+      ),
+    ],
+  ),
+)).toList(),
         ]),
       )).toList(),
 
