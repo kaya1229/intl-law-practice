@@ -111,7 +111,7 @@ class LawLearnerApp extends StatelessWidget {
 
 class _MainDashboardState extends State<MainDashboard> {
   String _archiveSearchQuery = "";
-  List<Article> _allArticles = []; // late 제거하고 빈 리스트로 초기화
+  List<Article> _allArticles = []; // late 제거, 초기값 설정
   bool _isLoading = true;
 
   @override
@@ -120,7 +120,7 @@ class _MainDashboardState extends State<MainDashboard> {
     _loadJsonData();
   }
 
-  // 1. 데이터 로딩 함수 (클래스 내부 위치)
+  // 1. 데이터 로딩 함수
   Future<void> _loadJsonData() async {
     try {
       final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
@@ -133,13 +133,11 @@ class _MainDashboardState extends State<MainDashboard> {
       });
     } catch (e) {
       debugPrint("데이터 로딩 실패: $e");
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() { _isLoading = false; });
     }
   }
 
-  // 2. 즐겨찾기 계산 (클래스 내부 위치)
+  // 2. 즐겨찾기 리스트 계산
   List<Paragraph> get _favoriteParagraphs {
     List<Paragraph> favs = [];
     for (var art in _allArticles) {
@@ -148,40 +146,40 @@ class _MainDashboardState extends State<MainDashboard> {
     return favs;
   }
 
-  // 3. 메인 빌드 함수
+  // 3. 빌드 함수 (단 하나만 존재해야 합니다)
   @override
   Widget build(BuildContext context) {
-    // 로딩 중일 때 보여줄 화면
+    // 로딩 중 화면 처리
     if (_isLoading) {
       return const Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(),
+              CircularProgressIndicator(color: Color(0xFF1B5E20)),
               SizedBox(height: 20),
-              Text("조약 데이터를 불러오는 중입니다..."),
+              Text("조약 데이터를 불러오는 중입니다...", style: TextStyle(color: Color(0xFF1B5E20))),
             ],
           ),
         ),
       );
     }
 
-    // 데이터 검색 필터링 로직
+    // 데이터 검색/필터링 로직
     final treaties = [
       {"name": "조약법에 관한 비엔나 협약", "code": "VCLT"},
       {"name": "국제연합헌장", "code": "UN Charter"},
     ].where((t) => 
-        t['name']!.contains(_archiveSearchQuery) || 
-        t['code']!.contains(_archiveSearchQuery.toUpperCase())
+      t['name']!.contains(_archiveSearchQuery) || 
+      t['code']!.contains(_archiveSearchQuery.toUpperCase())
     ).toList();
 
-    // 실제 화면 구성
+    // 실제 화면 구성 (Scaffold는 여기서 딱 한 번만 시작!)
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
+            _buildHeader(), // 기존 코드에 있는 함수 호출
             _buildSectionTitle("GAME ZONE", top: 30),
             _buildGameZone(),
             _buildSectionTitle("ARCHIVE ZONE", top: 20),
