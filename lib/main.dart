@@ -9,32 +9,72 @@ void main() => runApp(const LawLearnerApp());
 class SubPoint {
   final String letter;
   final String text;
+
   SubPoint({required this.letter, required this.text});
+
+  factory SubPoint.fromJson(Map<String, dynamic> json) {
+    return SubPoint(
+      letter: json['letter'] ?? "",
+      text: json['text'] ?? "",
+    );
+  }
 }
 
 class SubItem {
   final String number;
   final String text;
   final List<SubPoint> subPoints;
-  SubItem({required this.number, required this.text, this.subPoints = const []});
+
+  SubItem({
+    required this.number, 
+    required this.text, 
+    this.subPoints = const []
+  });
+
+  factory SubItem.fromJson(Map<String, dynamic> json) {
+    return SubItem(
+      // JSON의 'letter'나 'order' 필드를 'number'로 매칭
+      number: json['letter'] ?? json['order'] ?? "", 
+      text: json['text'] ?? "",
+      subPoints: json['subPoints'] != null
+          ? (json['subPoints'] as List).map((s) => SubPoint.fromJson(s)).toList()
+          : [],
+    );
+  }
 }
 
 class Paragraph {
   final String order;
   final String text;
   final List<SubItem> subItems;
-  List<String> keywords; 
+  List<String> keywords;
   String userNote;
   bool isFavorite;
   int wrongCount;
-  final String parentArticleId;
-  final String parentTreaty;
 
   Paragraph({
-    required this.order, required this.text, required this.subItems,
-    required this.parentArticleId, required this.parentTreaty,
-    List<String>? keywords, this.userNote = "", this.isFavorite = false, this.wrongCount = 0,
+    required this.order,
+    required this.text,
+    required this.subItems,
+    List<String>? keywords,
+    this.userNote = "",
+    this.isFavorite = false,
+    this.wrongCount = 0,
   }) : keywords = keywords ?? [];
+
+  factory Paragraph.fromJson(Map<String, dynamic> json) {
+    return Paragraph(
+      order: json['order'] ?? "",
+      text: json['text'] ?? "",
+      subItems: (json['subItems'] as List)
+          .map((s) => SubItem.fromJson(s))
+          .toList(),
+      keywords: List<String>.from(json['keywords'] ?? []),
+      userNote: json['userNote'] ?? "",
+      isFavorite: json['isFavorite'] ?? false,
+      wrongCount: json['wrongCount'] ?? 0,
+    );
+  }
 }
 
 class Article {
@@ -42,7 +82,24 @@ class Article {
   final String title;
   final String treaty;
   final List<Paragraph> paragraphs;
-  Article({required this.id, required this.title, required this.treaty, required this.paragraphs});
+
+  Article({
+    required this.id,
+    required this.title,
+    required this.treaty,
+    required this.paragraphs,
+  });
+
+  factory Article.fromJson(Map<String, dynamic> json) {
+    return Article(
+      id: json['id'] ?? "",
+      title: json['title'] ?? "",
+      treaty: json['treaty'] ?? "",
+      paragraphs: (json['paragraphs'] as List)
+          .map((p) => Paragraph.fromJson(p))
+          .toList(),
+    );
+  }
 }
 
 int globalHighScore = 0;
