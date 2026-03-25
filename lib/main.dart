@@ -39,6 +39,7 @@ class Paragraph {
   // 부모 정보를 JSON에서 가져올 수 없으므로 기본값 처리하거나 선택사항으로 변경
   final String parentArticleId;
   final String parentTreaty;
+  bool isFavorite;
 
   Paragraph({
     required this.order,
@@ -47,6 +48,7 @@ class Paragraph {
     required this.keywords,
     this.parentArticleId = "", // 기본값 추가
     this.parentTreaty = "VCLT", // 기본값 추가
+    this.isFavorite = false,
   });
 
   factory Paragraph.fromJson(Map<String, dynamic> json, String articleId, String treaty) => 
@@ -59,6 +61,7 @@ class Paragraph {
         keywords: List<String>.from(json['keywords'] ?? []),
         parentArticleId: articleId,
         parentTreaty: treaty,
+        isFavorite: json['isFavorite'] ?? false,
       );
 }
 
