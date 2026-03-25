@@ -1,0 +1,16 @@
+name: intl_law_practice
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+flutter:
+  uses-material-design: true
+  # 나중에 데이터를 넣을 때 여기 아래에 assets: 를 추가할 겁니다.
