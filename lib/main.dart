@@ -342,9 +342,14 @@ void _startQuiz(String mode, {String? quizType}) {
           quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
         ),
       ),
-    ).then((value) { // 👈 (_)를 (value)로 딱 한 글자 수정
-    print("로그: 메인에 도착한 값은 $value 입니다."); // 👈 이 줄 추가
-    setState(() {}); 
+    ).then((value) { if (value != null && value is int) { // 2. 배달된 값이 숫자인지 확인
+        setState(() {
+          if (value > globalHighScore) {
+            globalHighScore = value; // 3. 최고 점수 갱신!
+          }
+        });
+        print("메인 수신 성공: $value점 (최고점: $globalHighScore)");
+      }
   });
   }
 }
