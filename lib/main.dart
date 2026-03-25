@@ -342,12 +342,15 @@ Widget build(BuildContext context) {
           quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
         ),
       ),
-    ).then((value) { // 👈 (_)를 (value)로 변경
+    ).then((value) {
+      debugPrint("메인에 도착한 값: $value");
       if (value != null && value is int) {
+        debugPrint("현재 최고 점수: $globalHighScore, 새로 받은 점수: $value");
         setState(() {
           // 얻은 점수가 최고 점수보다 높으면 업데이트
           if (value > globalHighScore) {
             globalHighScore = value;
+            debugPrint("최고 점수 갱신 완료!"); // 👈 3번 확인: 업데이트 성공?
           }
         });
       }
@@ -879,7 +882,10 @@ Container(
                   elevation: 0,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                 ),
-                onPressed: () => Navigator.pop(context, _score),
+               onPressed: () {
+  debugPrint("점수 던지기 직전: $_score"); // 👈 콘솔에 출력
+  Navigator.pop(context, _score);
+},
                 child: const Text("메인 화면으로 돌아가기", style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
               ),
             ),
