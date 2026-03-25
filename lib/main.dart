@@ -988,7 +988,7 @@ Container(
     ],
   );
 }
-  return RichText(
+  /*return RichText(
     text: TextSpan(
       // family 대신 fontFamily를 사용하거나, 특정 폰트가 없다면 fontFamily 줄을 삭제하세요.
       style: const TextStyle(
@@ -1016,7 +1016,7 @@ Container(
     ),
   );
 }
-}
+}*/
 
 // --- [4. 조문 리스트 화면 (검색 기능 복구)] ---
 
