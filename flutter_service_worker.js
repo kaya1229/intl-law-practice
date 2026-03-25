@@ -13,6 +13,7 @@ const RESOURCES = {"assets/AssetManifest.json": "2efbb41d7877d10aac9d091f58ccd7b
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "index.html": "0ed5c7bf126bdf90683c22d6bacac560",
 "/": "0ed5c7bf126bdf90683c22d6bacac560",
+"manifest.json": "39f11048f66c41de73f6662ec8292206",
 "main.dart.js": "9856d9affa94529de2711b286abe6d7d",
 "flutter.js": "c71a09214cb6f5f8996a531350400a9a",
 "canvaskit/skwasm.js.symbols": "741d50ffba71f89345996b0aa8426af8",

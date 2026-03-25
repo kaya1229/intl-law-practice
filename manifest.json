@@ -1,0 +1,13 @@
+{
+    "name": "intl_law_practice",
+    "short_name": "intl_law_practice",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "description": "International Law Practice Quiz",
+    "orientation": "portrait-primary",
+    "icons": [
+        { "src": "icons/Icon-192.png", "sizes": "192x192", "type": "image/png" }
+      ]
+}
