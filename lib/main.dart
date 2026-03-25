@@ -332,29 +332,20 @@ Widget build(BuildContext context) {
       ),
     );
   }
- void _startQuiz(String mode, {String? quizType}) async { // ← async 추가
-  // 1. 퀴즈 화면으로 이동하고 결과를 기다림
-  final dynamic result = await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => QuizScreen(
-        allArticles: _allArticles, 
-        mode: mode, 
-        quizType: quizType,
+ void _startQuiz(String mode, {String? quizType}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => QuizScreen(
+          allArticles: _allArticles, 
+          mode: mode, 
+          quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
+        ),
       ),
-    ),
-  );
-
-  // 2. 돌아온 결과가 숫자(점수)라면 업데이트
-  if (result != null && result is int) {
-    setState(() {
-      if (result > globalHighScore) {
-        globalHighScore = result;
-      }
-    });
-    debugPrint("획득 점수: $result, 최고 점수: $globalHighScore");
+    ).then((_) => setState(() {}));
   }
 }
+
 // --- [2. 즐겨찾기 리스트 화면] ---
 
 class FavoriteListScreen extends StatelessWidget {
