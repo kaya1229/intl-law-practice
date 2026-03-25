@@ -76,7 +76,7 @@ class Article {
 
   factory Article.fromJson(Map<String, dynamic> json) {
     String articleId = json['id'] ?? "";
-    String treatyName = json['treaty'] ?? "VCLT";
+    String treatyName = json["treaty"] ?? "VCLT";
     return Article(
       id: articleId,
       title: json['title'] ?? "",
