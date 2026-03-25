@@ -342,7 +342,10 @@ void _startQuiz(String mode, {String? quizType}) {
           quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
         ),
       ),
-    ).then((_) => setState(() {}));
+    ).then((value) { // 👈 (_)를 (value)로 딱 한 글자 수정
+    print("로그: 메인에 도착한 값은 $value 입니다."); // 👈 이 줄 추가
+    setState(() {}); 
+  });
   }
 }
 
