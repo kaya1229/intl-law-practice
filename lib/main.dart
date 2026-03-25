@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert'; // JSON 해석용
+import 'package:flutter/services.dart'; // 파일 로드용
 
 void main() => runApp(const LawLearnerApp());
 
@@ -72,28 +74,34 @@ class MainDashboard extends StatefulWidget {
 
 class _MainDashboardState extends State<MainDashboard> {
   String _archiveSearchQuery = "";
-  late List<Article> _allArticles;
-
+  late List<Article> _allArticles = []; // 초기값 빈 리스트로 설정
+  bool _isLoading = true; // 데이터 로딩 중인지 확인하는 변수
+  
   @override
   void initState() {
-    super.initState();
-    _allArticles = [
-      Article(
-        id: "제2조", title: "용어의 정의", treaty: "VCLT",
-        paragraphs: [
-          Paragraph(
-            order: "1", text: "이 협약의 목적상 다음의 용어는 아래의 의미를 가진다.",
-            parentArticleId: "제2조", parentTreaty: "VCLT",
-            subItems: [
-              SubItem(number: "1", text: "'조약'이라 함은 국가간에 서면 형식으로 체결된 합의를 말한다.", subPoints: [
-                SubPoint(letter: "가", text: "단일의 문서에 포함되어 있는 것")
-              ])
-            ],
-            keywords: ["서면", "단일"],
-          )
-        ],
-      ),
-    ];
+  super.initState();
+  _loadJsonData(); // 실행 시 파일을 읽어오라고 시킴
+}
+
+// JSON 파일을 읽어서 Article 객체 리스트로 변환하는 함수
+Future<void> _loadJsonData() async {
+  try {
+    // 1. JSON 파일 읽기
+    final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
+    final Map<String, dynamic> data = json.decode(response);
+    
+    // 2. JSON 데이터를 Article 객체 리스트로 변환
+    final List<dynamic> articlesJson = data['articles'];
+    
+    setState(() {
+      _allArticles = articlesJson.map((json) => Article.fromJson(json)).toList();
+      _isLoading = false; // 로딩 완료!
+    });
+  } catch (e) {
+    debugPrint("데이터 로딩 실패: $e");
+    setState(() { _isLoading = false; });
+  }
+}
   }
 
   List<Paragraph> get _favoriteParagraphs {
