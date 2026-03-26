@@ -65,6 +65,21 @@ class Paragraph {
       userNote: json['userNote'] ?? "",
     );
   }
+  Map<String, dynamic> toJson() => {
+        'order': order,
+        'text': text,
+        'subItems': subItems.map((s) => {
+          'number': s.number,
+          'text': s.text,
+          'subPoints': s.subPoints.map((p) => {'letter': p.letter, 'text': p.text}).toList(),
+        }).toList(),
+        'parentArticleId': parentArticleId,
+        'parentTreaty': parentTreaty,
+        'keywords': keywords,
+        'userNote': userNote,
+        'isFavorite': isFavorite,
+        'wrongCount': wrongCount,
+      };
 }
 
 class Article {
@@ -127,18 +142,51 @@ class _MainDashboardState extends State<MainDashboard> {
 
   Future<void> _loadData() async {
     try {
-      // 1. JSON 파일 읽기
-      final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
-      final List<dynamic> data = json.decode(response);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? savedData = prefs.getString('user_articles');
+      _totalScore = prefs.getInt('total_score') ?? 0; // 점수도 불러오기
 
-      // 2. 모델로 변환
-      setState(() {
-        _allArticles = data.map((json) => Article.fromJson(json)).toList();
-        _isLoading = false;
-      });
+      if (savedData != null) {
+        // 1. 로컬 저장 데이터가 있으면 그것을 로드
+        final List<dynamic> decoded = json.decode(savedData);
+        setState(() {
+          _allArticles = decoded.map((j) => Article.fromJson(j)).toList();
+          _isLoading = false;
+        });
+        debugPrint("로컬 저장소에서 데이터를 불러왔습니다.");
+      } else {
+        // 2. 저장된 게 없으면 생전 처음 실행한 것이므로 JSON 파일 로드
+        final String response = await rootBundle.loadString('assets/data/treaty_vclt.json');
+        final List<dynamic> data = json.decode(response);
+        setState(() {
+          _allArticles = data.map((json) => Article.fromJson(json)).toList();
+          _isLoading = false;
+        });
+        debugPrint("원본 JSON 파일을 로드했습니다.");
+      }
     } catch (e) {
       debugPrint("데이터 로딩 실패: $e");
       setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _saveData() async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      
+      // Article 리스트를 JSON 문자열로 변환
+      final String encoded = json.encode(_allArticles.map((a) => {
+        'id': a.id,
+        'title': a.title,
+        'treaty': a.treaty,
+        'paragraphs': a.paragraphs.map((p) => p.toJson()).toList(),
+      }).toList());
+
+      await prefs.setString('user_articles', encoded);
+      await prefs.setInt('total_score', _totalScore); // 점수도 저장
+      debugPrint("변경사항이 로컬에 저장되었습니다.");
+    } catch (e) {
+      debugPrint("데이터 저장 실패: $e");
     }
   }
 
@@ -289,7 +337,15 @@ Widget build(BuildContext context) {
         title: Text(n, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
         subtitle: Text("$c | 조문 ${filtered.length}개", style: const TextStyle(fontSize: 11, color: Colors.grey)), 
         trailing: const Icon(Icons.chevron_right), 
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => ArticleListScreen(articles: filtered, treatyName: n))).then((_) => setState(() {}))
+        onTap: () async {
+  await Navigator.push(
+    context,
+    MaterialPageRoute(builder: (_) => ArticleListScreen(articles: filtered, treatyName: n)),
+  );
+  // 상세 화면에서 즐겨찾기 등을 수정하고 돌아오면 무조건 저장
+  _saveData(); 
+  setState(() {});
+},
       ),
     );
   }
@@ -342,15 +398,11 @@ void _startQuiz(String mode, {String? quizType}) {
           quizType: quizType // QuizScreen 클래스에도 이 변수가 있어야 합니다.
         ),
       ),
-    ).then((value) { if (value != null && value is int) { // 2. 배달된 값이 숫자인지 확인
-        setState(() {
-          if (value > globalHighScore) {
-            globalHighScore = value; // 3. 최고 점수 갱신!
-          }
-        });
-        print("메인 수신 성공: $value점 (최고점: $globalHighScore)");
-      }
-  });
+    ).then((value) {
+  // 퀴즈 결과 점수 갱신 로직 이후에 추가
+  _saveData(); 
+  setState(() {});
+});
   }
 }
 
@@ -453,98 +505,72 @@ class _QuizScreenState extends State<QuizScreen> {
   _quizzes = [];
   for (var a in widget.allArticles) {
     if (!_selectedTreaties.contains(a.treaty)) continue;
+    
     for (var p in a.paragraphs) {
       if (widget.mode == "CHECK" && p.wrongCount == 0) continue;
       if (widget.mode == "IMPORTANT" && !p.isFavorite) continue;
-      
-      // --- [조문 암기 모드 전용 로직] ---
-      // _generate() 내부 FULL_TEXT 분기 수정 예시
-if (widget.mode == "FULL_TEXT") {
-  // 1. [항] 문제
-  _quizzes.add({
-    "location": "${a.id} ${a.title}",
-    "article": a, 
-    "paragraph": p,
-    "type": "PARA", // 현재 문제 유형
-    "ans": p.text,
-  });
 
-  for (var item in p.subItems) {
-    // 2. [호] 문제
-    _quizzes.add({
-      "location": "${a.id} ${a.title}",
-      "article": a, 
-      "paragraph": p,
-      "subItem": item, // 현재 문제 대상 호
-      "type": "ITEM",
-      "ans": item.text,
-    });
-
-    for (var pt in item.subPoints) {
-      // 3. [목] 문제
-      _quizzes.add({
-        "location": "${a.id} ${a.title}",
-        "article": a, 
-        "paragraph": p,
-        "subItem": item,
-        "subPoint": pt, // 현재 문제 대상 목
-        "type": "POINT",
-        "ans": pt.text,
-      });
-    }
-  }
-}
-  else { 
+      if (widget.mode == "FULL_TEXT") {
+        // --- [통암기 모드: 문장 전체가 정답] ---
+        _quizzes.add({"location": "${a.id} ${a.title}", "article": a, "paragraph": p, "type": "PARA", "ans": p.text});
+        for (var item in p.subItems) {
+          _quizzes.add({"location": "${a.id} ${a.title}", "article": a, "paragraph": p, "subItem": item, "type": "ITEM", "ans": item.text});
+          for (var pt in item.subPoints) {
+            _quizzes.add({"location": "${a.id} ${a.title}", "article": a, "paragraph": p, "subItem": item, "subPoint": pt, "type": "POINT", "ans": pt.text});
+          }
+        }
+      } else {
+        // --- [키워드 모드: 단어가 정답] ---
         for (var k in p.keywords) {
-          if (k.isEmpty) continue;
+          final cleanK = k.trim();
+          if (cleanK.isEmpty) continue;
 
-          // 1. [항] 키워드 문제
-          if (p.text.contains(k)) {
+          // 1. [항] 문제
+          if (p.text.contains(cleanK)) {
             _quizzes.add({
               "location": "${a.id} ${a.title}",
               "article": a, "paragraph": p,
-              "parentTexts": [], 
-              "targetText": "제 ${p.order} 항: ${p.text.replaceAll(k, " [ ??? ] ")}",
-              "ans": k, "subInfo": "항"
+              "type": "PARA", "ans": cleanK,
             });
           }
-
-          // 2. [호/목] 키워드 문제
+          // 2. [호/목] 문제
           for (var item in p.subItems) {
-            if (item.text.contains(k)) {
+            if (item.text.contains(cleanK)) {
               _quizzes.add({
                 "location": "${a.id} ${a.title}",
-                "article": a, "paragraph": p,
-                "parentTexts": ["제 ${p.order} 항: ${p.text}"],
-                "targetText": "${item.number}) ${item.text.replaceAll(k, " [ ??? ] ")}",
-                "ans": k, "subInfo": "호"
+                "article": a, "paragraph": p, "subItem": item,
+                "type": "ITEM", "ans": cleanK,
               });
             }
             for (var pt in item.subPoints) {
-              if (pt.text.contains(k)) {
+              if (pt.text.contains(cleanK)) {
                 _quizzes.add({
                   "location": "${a.id} ${a.title}",
-                  "article": a, "paragraph": p,
-                  "parentTexts": ["제 ${p.order} 항: ${p.text}", "${item.number}) ${item.text}"],
-                  "targetText": "${pt.letter}. ${pt.text.replaceAll(k, " [ ??? ] ")}",
-                  "ans": k, "subInfo": "목"
+                  "article": a, "paragraph": p, "subItem": item, "subPoint": pt,
+                  "type": "POINT", "ans": cleanK,
                 });
               }
             }
           }
         }
-      } // --- [else 종료] ---
+      }
     }
   }
 
-  // --- [후처리: 객관식 보기 생성 및 섞기] ---
+  // --- [후처리: 보기 생성 및 섞기] ---
   if (widget.quizType == "MCQ") {
     for (var q in _quizzes) {
       q['options'] = _makeOptions(q['ans']);
     }
   }
   _quizzes.shuffle();
-  setState(() { _idx = 0; _lives = 5; _score = 0; _isFinished = false; _wrongSession = []; });
+  setState(() { 
+    _idx = 0; 
+    _lives = 5; 
+    _score = 0; 
+    _isFinished = false; 
+    _wrongSession = []; 
+  });
 }
   
   void _checkAnswer() {
@@ -645,8 +671,7 @@ if (widget.mode == "FULL_TEXT") {
             ]),
             const SizedBox(height: 20),
 
-           // --- [2. 문제 카드 영역] ---
-// --- [2. 문제 카드 영역] ---
+// --- [2. 문제 카드 영역 수정본] ---
 Container(
   width: double.infinity,
   padding: const EdgeInsets.all(20),
@@ -658,66 +683,41 @@ Container(
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // 1. 위치 정보 (제1조 등)
-      Text(q['location'], style: const TextStyle(fontSize: 12, color: Color(0xFF1B5E20), fontWeight: FontWeight.bold)),
+      // 1. 위치 정보 (조약명, 제 n조 제목)
+      Text(
+        q['location'], 
+        style: const TextStyle(fontSize: 12, color: Color(0xFF1B5E20), fontWeight: FontWeight.bold)
+      ),
       const Divider(height: 25),
 
-      // 2. [항] 출력
+      // 2. [항] 출력 (무조건 표시 - 모든 문제의 최상위 부모)
       _buildHierarchyLine(
-        prefix: "제 ${q['paragraph'].order} 항 ",
-        fullText: q['paragraph'].text,
+        prefix: "제 ${q['paragraph'].order} 항",
+        text: q['paragraph'].text,
         isTarget: q['type'] == "PARA",
-        q: q,
+        ans: q['ans'],
+        depth: 0,
       ),
 
-      // 3. [호/목] 출력 로직
-      ...(q['paragraph'] as Paragraph).subItems
-          .where((item) {
-            // [필터링 1] 내가 정답이거나, 내 자식(목) 중에 정답이 있거나, 
-            // 혹은 항이 정답일 때 내가 상위 2개 안에 들거나
-            bool isMyChildTarget = item.subPoints.any((pt) => pt == q['subPoint']);
-            bool isIAmTarget = (item == q['subItem']);
-            bool isParentTarget = (q['type'] == "PARA");
-            
-            // 항이 정답일 때는 '호'를 최대 2개까지만 보여줌 (아래 take와 연동)
-            return isIAmTarget || isMyChildTarget || isParentTarget;
-          })
-          .take(q['type'] == "PARA" ? 2 : 10) // 항이 정답이면 호는 2개만, 아니면 제약 없이(충분히)
-          .map((item) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10, top: 8),
-              child: _buildHierarchyLine(
-                prefix: "${item.number}) ",
-                fullText: item.text,
-                isTarget: item == q['subItem'],
-                q: q,
-              ),
-            ),
-            
-            // 4. [목] 출력 로직
-            ...item.subPoints
-                .where((pt) {
-                  // [필터링 2] 내가 정답이거나, 내 부모(호)가 정답일 때 상위 2개 안에 들거나
-                  bool isIAmTarget = (pt == q['subPoint']);
-                  bool isParentTarget = (item == q['subItem']);
-                  return isIAmTarget || isParentTarget;
-                })
-                .take(item == q['subItem'] ? 2 : 10) // 호가 정답이면 목은 2개만
-                .map((pt) => Padding(
-                  padding: const EdgeInsets.only(left: 20, top: 4),
-                  child: _buildHierarchyLine(
-                    prefix: "${pt.letter}) ",
-                    fullText: pt.text,
-                    isTarget: pt == q['subPoint'],
-                    q: q,
-                  ),
-                )),
-          ],
-        );
-      }).toList(),
+      // 3. [호] 출력 (현재 문제 대상이 '호'이거나 '목'일 때만 해당 '호'를 표시)
+      if (q['subItem'] != null)
+        _buildHierarchyLine(
+          prefix: "${q['subItem'].number})",
+          text: q['subItem'].text,
+          isTarget: q['type'] == "ITEM",
+          ans: q['ans'],
+          depth: 1,
+        ),
+
+      // 4. [목] 출력 (현재 문제 대상이 '목'일 때만 해당 '목'을 표시)
+      if (q['subPoint'] != null)
+        _buildHierarchyLine(
+          prefix: "${q['subPoint'].letter}.",
+          text: q['subPoint'].text,
+          isTarget: q['type'] == "POINT",
+          ans: q['ans'],
+          depth: 2,
+        ),
     ],
   ),
 ),
@@ -931,58 +931,53 @@ Container(
   }
   
   Widget _buildHierarchyLine({
-    required String prefix,
-    required String fullText,
-    required bool isTarget,
-    required Map q,
-  }) {
-    String displayContent = fullText;
+  required String prefix,
+  required String text,
+  required bool isTarget,
+  required String? ans,
+  required int depth,
+}) {
+  // 문제 대상인 경우 텍스트 치환
+  String displayContent = text;
+  if (isTarget && ans != null) {
+    displayContent = (widget.mode == "FULL_TEXT") 
+        ? " [ ? ? ? ? ? ? ? ? ? ] " 
+        : text.replaceAll(ans, " [ ??? ] ");
+  }
 
-    // 1. 텍스트 치환 로직
-    if (isTarget) {
-      if (widget.mode == "FULL_TEXT") {
-        displayContent = " [         ???         ] ";
-      } else {
-        String answer = q['ans']?.toString() ?? "";
-        if (fullText.contains(answer)) {
-          displayContent = fullText.replaceAll(answer, " [ ??? ] ");
-        }
-      }
-    }
-
-    // 2. UI 반환 (Row 방식 사용)
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  return Padding(
+    padding: EdgeInsets.only(left: depth * 20.0, top: 10), 
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start, 
       children: [
+        // [번호 영역] 고정 너비를 주어 본문이 이 너비 뒤에서 시작하게 함
         SizedBox(
-          width: 60, 
+          width: 55, // 번호(제 1 항, 가. 등)가 차지할 공간
           child: Text(
             prefix,
             style: TextStyle(
-              fontSize: 14,
-              fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
               color: isTarget ? const Color(0xFF1B5E20) : Colors.black54,
             ),
           ),
         ),
+        // [본문 영역] Expanded를 써서 남은 공간을 다 채우고, 줄바꿈 시에도 SizedBox 너비를 유지함
         Expanded(
           child: Text(
             displayContent,
             style: TextStyle(
               fontSize: 14,
-              height: 1.4,
-              fontWeight: isTarget ? FontWeight.bold : FontWeight.normal,
-              color: isTarget ? Colors.blue : Colors.black87,
-              backgroundColor: isTarget && widget.mode != "FULL_TEXT" 
-                  ? Colors.yellow.withOpacity(0.2) 
-                  : null,
+              height: 1.5, // 가독성을 위한 줄간격
+              color: isTarget ? Colors.blue.shade900 : Colors.black87,
+              fontWeight: isTarget ? FontWeight.w600 : FontWeight.normal,
             ),
-            softWrap: true,
           ),
         ),
       ],
-    );
-  }
+    ),
+  );
+}
 }
 
 
