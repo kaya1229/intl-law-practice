@@ -679,31 +679,19 @@ Container(
   decoration: BoxDecoration(
     color: const Color(0xFFF1F8E9), 
     borderRadius: BorderRadius.circular(20), 
-    border: Border.all(color: const Color(0xFFC8E6C9))
+    border: Border.all(color: const Color(0xFFC8E6C9)),
   ),
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // --- [2. 문제 카드 영역 수정본] ---
-Container(
-  width: double.infinity,
-  padding: const EdgeInsets.all(20),
-  decoration: BoxDecoration(
-    color: const Color(0xFFF1F8E9), 
-    borderRadius: BorderRadius.circular(20), 
-    border: Border.all(color: const Color(0xFFC8E6C9))
-  ),
-  child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      // 1. 위치 정보
+      // 1. 위치 정보 (조약명, 조항 번호 등)
       Text(
         q['location'].toString(), 
-        style: const TextStyle(fontSize: 12, color: Color(0xFF1B5E20), fontWeight: FontWeight.bold)
+        style: const TextStyle(fontSize: 12, color: Color(0xFF1B5E20), fontWeight: FontWeight.bold),
       ),
       const Divider(height: 25),
 
-      // 2. [항] 출력 - (q['paragraph'] as Paragraph) 추가
+      // 2. [항] 출력 (항상 기본으로 출력)
       _buildHierarchyLine(
         prefix: "제 ${(q['paragraph'] as Paragraph).order} 항",
         text: (q['paragraph'] as Paragraph).text,
@@ -712,7 +700,7 @@ Container(
         depth: 0,
       ),
 
-      // 3. [호] 출력 - (q['subItem'] as SubItem) 추가
+      // 3. [호] 출력 (데이터가 있을 때만 출력)
       if (q['subItem'] != null)
         _buildHierarchyLine(
           prefix: "${(q['subItem'] as SubItem).number})",
@@ -722,7 +710,7 @@ Container(
           depth: 1,
         ),
 
-      // 4. [목] 출력 - (q['subPoint'] as SubPoint) 추가
+      // 4. [목] 출력 (데이터가 있을 때만 출력)
       if (q['subPoint'] != null)
         _buildHierarchyLine(
           prefix: "${(q['subPoint'] as SubPoint).letter}.",
@@ -733,10 +721,7 @@ Container(
         ),
     ],
   ),
-),
-    ],
-  ),
-),
+), // 여기서 끝! (불필요한 중첩 Container 삭제)
             const SizedBox(height: 25),
 
             // --- [3. 입력 영역: 객관식 vs 주관식 분기] ---
