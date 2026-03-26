@@ -130,7 +130,7 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> {
-  int _totalscore = 0;
+  int _totalScore = 0;
   String _archiveSearchQuery = "";
   List<Article> _allArticles = []; // 초기값 빈 리스트
   bool _isLoading = true; // 로딩 상태 추가
@@ -1141,109 +1141,87 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
   }
 
   Widget _buildParagraphItem(Paragraph p) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text("제 ${p.order} 항", style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF1B5E20))),
-        Row(children: [
-          // 1. 즐겨찾기 아이콘: 활성화 시 진한 초록, 해제 시 연한 초록 테두리
-          IconButton(
-            icon: Icon(
-              p.isFavorite ? Icons.star : Icons.star_border, 
-              color: p.isFavorite ? const Color(0xFF2E7D32) : Colors.green.shade200,
-            ), 
-            onPressed: () => setState(() => p.isFavorite = !p.isFavorite)
-          ),
-          // 2. 필기 아이콘: 깔끔한 초록색으로 변경
-          IconButton(
-            icon: const Icon(Icons.edit_note, color: Color(0xFF43A047)), 
-            onPressed: () => _showEditNote(p)
-          ),
-        ])
-      ]),
-      Text(p.text, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
-      
-      ...p.subItems.map((pt) => Padding(
-        padding: const EdgeInsets.only(left: 15, top: 10),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("${pt.letter}. ${pt.text}", style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
-          ...s.subPoints.map((pt) => Padding(
-  padding: const EdgeInsets.only(left: 15, top: 5), // '호'에서의 들여쓰기
-  child: Row(
-    crossAxisAlignment: CrossAxisAlignment.start, // 번호와 본문의 첫 줄을 맞춤
-    children: [
-      // 1. 번호 영역 (고정 너비)
-      SizedBox(
-        width: 25, // '가.', '나.' 등이 차지할 공간 (조절 가능)
-        child: Text(
-          "${pt.letter}.", 
-          style: const TextStyle(fontSize: 13, color: Colors.black)
+  return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text("제 ${p.order} 항", style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF1B5E20))),
+      Row(children: [
+        IconButton(
+          icon: Icon(
+            p.isFavorite ? Icons.star : Icons.star_border, 
+            color: p.isFavorite ? const Color(0xFF2E7D32) : Colors.green.shade200,
+          ), 
+          onPressed: () => setState(() => p.isFavorite = !p.isFavorite)
         ),
-      ),
-      // 2. 본문 영역 (줄바꿈 시 번호 너비만큼 들여쓰기 유지)
-      Expanded(
-        child: Text(
-          pt.text, 
-          style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 13, color: Colors.black),
-          softWrap: true, // 자동 줄바꿈 활성화
+        IconButton(
+          icon: const Icon(Icons.edit_note, color: Color(0xFF43A047)), 
+          onPressed: () => _showEditNote(p)
         ),
-      ),
-    ],
-  ),
-)).toList(),
-        ]),
-      )).toList(),
-
-      const SizedBox(height: 15),
-      if (p.userNote.isNotEmpty) 
-        Container(width: double.infinity, padding: const EdgeInsets.all(10), margin: const EdgeInsets.only(bottom: 10), decoration: BoxDecoration(color: Colors.yellow.shade50, borderRadius: BorderRadius.circular(8)), child: Text("📝 ${p.userNote}", style: const TextStyle(fontSize: 12))),
-      
-      Wrap(
-  spacing: 8, 
-  runSpacing: 8, 
-  children: [
-    // --- 1. 등록된 키워드 칩 (진한 초록, 더 둥글게) ---
-    ...p.keywords.map((k) => Chip(
-      label: Text(
-        k, 
-        style: const TextStyle(
-          fontSize: 10, 
-          color: Colors.white, 
-          fontWeight: FontWeight.w600
-        )
-      ),
-      backgroundColor: const Color(0xFF1B5E20),
-      deleteIcon: const Icon(Icons.close, size: 12, color: Colors.white70),
-      onDeleted: () => setState(() => p.keywords.remove(k)),
-      // ★ BorderRadius를 8에서 30으로 변경하여 알약 모양으로 ★
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-      side: BorderSide.none, 
-      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-    )),
+      ])
+    ]),
+    Text(p.text, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
     
-    // --- 2. 키워드 추가 버튼 (연한 초록 배경 + 테두리, 더 둥글게) ---
-    ActionChip(
-      label: const Text(
-        "키워드 추가 +", 
-        style: TextStyle(
-          fontSize: 10, 
-          fontWeight: FontWeight.bold, 
-          color: Color(0xFF1B5E20)
-        )
-      ),
-      backgroundColor: const Color(0xFFF1F8E9),
-      // ★ 동일하게 BorderRadius 30 적용 ★
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-        side: const BorderSide(color: Color(0xFFC8E6C9)), // 테두리 유지
-      ),
-      visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
-      onPressed: () => _showAddKeyword(p.keywords),
+    // --- [호(SubItem) 루프 시작] ---
+    ...p.subItems.map((s) => Padding( // s가 여기서 선언됨
+      padding: const EdgeInsets.only(left: 15, top: 10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // ✅ 수정 포인트 1: s.number와 s.text를 사용해야 함 (pt는 아래에서 선언됨)
+        Text("${s.number}. ${s.text}", style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
+        
+        // --- [목(SubPoint) 루프 시작] ---
+        ...s.subPoints.map((pt) => Padding( // pt가 여기서 선언됨
+          padding: const EdgeInsets.only(left: 15, top: 5),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start, 
+            children: [
+              SizedBox(
+                width: 25,
+                child: Text(
+                  "${pt.letter}.", // pt 사용 가능
+                  style: const TextStyle(fontSize: 13, color: Colors.black)
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  pt.text, // pt 사용 가능
+                  style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 13, color: Colors.black),
+                  softWrap: true,
+                ),
+              ),
+            ],
+          ),
+        )).toList(),
+      ]),
+    )).toList(),
+
+    const SizedBox(height: 15),
+    if (p.userNote.isNotEmpty) 
+      Container(width: double.infinity, padding: const EdgeInsets.all(10), margin: const EdgeInsets.only(bottom: 10), decoration: BoxDecoration(color: Colors.yellow.shade50, borderRadius: BorderRadius.circular(8)), child: Text("📝 ${p.userNote}", style: const TextStyle(fontSize: 12))),
+    
+    Wrap(
+      spacing: 8, 
+      runSpacing: 8, 
+      children: [
+        ...p.keywords.map((k) => Chip(
+          label: Text(k, style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.w600)),
+          backgroundColor: const Color(0xFF1B5E20),
+          deleteIcon: const Icon(Icons.close, size: 12, color: Colors.white70),
+          onDeleted: () => setState(() => p.keywords.remove(k)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          side: BorderSide.none, 
+          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+        )),
+        ActionChip(
+          label: const Text("키워드 추가 +", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF1B5E20))),
+          backgroundColor: const Color(0xFFF1F8E9),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30), side: const BorderSide(color: Color(0xFFC8E6C9))),
+          visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
+          onPressed: () => _showAddKeyword(p.keywords),
+        ),
+      ],
     ),
-  ],
-),
-const Divider(height: 40),
-    ]);
-  }
+    const Divider(height: 40),
+  ]);
+}
 
   void _showAddKeyword(List<String> targetList) {
     final c = TextEditingController();
