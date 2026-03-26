@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert'; 
 import 'package:flutter/services.dart'; 
-import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(const LawLearnerApp());
 
@@ -695,7 +695,7 @@ Container(
         prefix: "제 ${q['paragraph'].order} 항",
         text: q['paragraph'].text,
         isTarget: q['type'] == "PARA",
-        ans: q['ans'],
+        ans: q['ans'] as String?,
         depth: 0,
       ),
 
@@ -705,7 +705,7 @@ Container(
           prefix: "${q['subItem'].number})",
           text: q['subItem'].text,
           isTarget: q['type'] == "ITEM",
-          ans: q['ans'],
+          ans: q['ans'] as String?,
           depth: 1,
         ),
 
@@ -715,7 +715,7 @@ Container(
           prefix: "${q['subPoint'].letter}.",
           text: q['subPoint'].text,
           isTarget: q['type'] == "POINT",
-          ans: q['ans'],
+          ans: q['ans'] as String?,
           depth: 2,
         ),
     ],
