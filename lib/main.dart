@@ -683,41 +683,56 @@ Container(
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      // 1. 위치 정보 (조약명, 제 n조 제목)
+      // --- [2. 문제 카드 영역 수정본] ---
+Container(
+  width: double.infinity,
+  padding: const EdgeInsets.all(20),
+  decoration: BoxDecoration(
+    color: const Color(0xFFF1F8E9), 
+    borderRadius: BorderRadius.circular(20), 
+    border: Border.all(color: const Color(0xFFC8E6C9))
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // 1. 위치 정보
       Text(
-        q['location'], 
+        q['location'].toString(), 
         style: const TextStyle(fontSize: 12, color: Color(0xFF1B5E20), fontWeight: FontWeight.bold)
       ),
       const Divider(height: 25),
 
-      // 2. [항] 출력 (무조건 표시 - 모든 문제의 최상위 부모)
+      // 2. [항] 출력 - (q['paragraph'] as Paragraph) 추가
       _buildHierarchyLine(
-        prefix: "제 ${q['paragraph'].order} 항",
-        text: q['paragraph'].text,
+        prefix: "제 ${(q['paragraph'] as Paragraph).order} 항",
+        text: (q['paragraph'] as Paragraph).text,
         isTarget: q['type'] == "PARA",
         ans: q['ans'] as String?,
         depth: 0,
       ),
 
-      // 3. [호] 출력 (현재 문제 대상이 '호'이거나 '목'일 때만 해당 '호'를 표시)
+      // 3. [호] 출력 - (q['subItem'] as SubItem) 추가
       if (q['subItem'] != null)
         _buildHierarchyLine(
-          prefix: "${q['subItem'].number})",
-          text: q['subItem'].text,
+          prefix: "${(q['subItem'] as SubItem).number})",
+          text: (q['subItem'] as SubItem).text,
           isTarget: q['type'] == "ITEM",
           ans: q['ans'] as String?,
           depth: 1,
         ),
 
-      // 4. [목] 출력 (현재 문제 대상이 '목'일 때만 해당 '목'을 표시)
+      // 4. [목] 출력 - (q['subPoint'] as SubPoint) 추가
       if (q['subPoint'] != null)
         _buildHierarchyLine(
-          prefix: "${q['subPoint'].letter}.",
-          text: q['subPoint'].text,
+          prefix: "${(q['subPoint'] as SubPoint).letter}.",
+          text: (q['subPoint'] as SubPoint).text,
           isTarget: q['type'] == "POINT",
           ans: q['ans'] as String?,
           depth: 2,
         ),
+    ],
+  ),
+),
     ],
   ),
 ),
@@ -912,23 +927,41 @@ Container(
   );
 
   void _showWrongReview() {
-    showModalBottomSheet(context: context, shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))), builder: (_) => Container(
+  showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    builder: (_) => Container(
       padding: const EdgeInsets.all(20),
-      child: Column(children: [
-        const Text("오답 리스트", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const Divider(),
-        Expanded(child: ListView.builder(itemCount: _wrongSession.length, itemBuilder: (_, i) {
-          final item = _wrongSession[i];
-          final p = item['paragraph'] as Paragraph;
-          return ListTile(
-            title: Text(item['location']), 
-            subtitle: Text("정답: ${item['ans']}"),
-            trailing: Text("누적 오답 ${p.wrongCount}회", style: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.bold)),
-          );
-        })),
-      ]),
-    ));
-  }
+      child: Column(
+        children: [
+          const Text("오답 리스트", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Divider(),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _wrongSession.length,
+              itemBuilder: (_, i) {
+                final item = _wrongSession[i];
+                // 1. Paragraph 객체로 확실히 형변환
+                final p = item['paragraph'] as Paragraph;
+                
+                return ListTile(
+                  // 2. String으로 형변환하여 안전하게 출력
+                  title: Text(item['location'].toString()), 
+                  subtitle: Text("정답: ${item['ans']}"),
+                  // 3. 이미 위에서 p를 정의했으므로 p.wrongCount 사용은 안전합니다.
+                  trailing: Text(
+                    "누적 오답 ${p.wrongCount}회", 
+                    style: const TextStyle(color: Colors.red, fontSize: 11, fontWeight: FontWeight.bold)
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
   
   Widget _buildHierarchyLine({
   required String prefix,
@@ -1130,7 +1163,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
       ...p.subItems.map((s) => Padding(
         padding: const EdgeInsets.only(left: 15, top: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("${s.number}. ${s.text}", style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
+          Text("${pt.letter}. ${pt.text}", style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
           ...s.subPoints.map((pt) => Padding(
   padding: const EdgeInsets.only(left: 15, top: 5), // '호'에서의 들여쓰기
   child: Row(
