@@ -130,6 +130,7 @@ class MainDashboard extends StatefulWidget {
 }
 
 class _MainDashboardState extends State<MainDashboard> {
+  int _totalscore = 0;
   String _archiveSearchQuery = "";
   List<Article> _allArticles = []; // 초기값 빈 리스트
   bool _isLoading = true; // 로딩 상태 추가
@@ -961,6 +962,7 @@ Container(
       ),
     ),
   );
+}
 }
   
   Widget _buildHierarchyLine({
