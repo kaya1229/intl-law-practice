@@ -1013,7 +1013,7 @@ Container(
     ),
   );
 }
-
+}
 
 
 // --- [4. 조문 리스트 화면 (검색 기능 복구)] ---
@@ -1162,7 +1162,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
       ]),
       Text(p.text, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
       
-      ...p.subItems.map((s) => Padding(
+      ...p.subItems.map((pt) => Padding(
         padding: const EdgeInsets.only(left: 15, top: 10),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text("${pt.letter}. ${pt.text}", style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 14)),
